@@ -55,8 +55,16 @@ export function status(now: Date = new Date()): Status {
  * The 2-day minimum is a placeholder until the client confirms a real lead time.
  */
 export const MIN_LEAD_DAYS = 2;
+/** A real calendar date in YYYY-MM-DD (rejects 2027-02-31, which JavaScript would roll over to March). */
+export function isRealDate(ymd: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(ymd)) return false;
+  const [y, m, d] = ymd.split('-').map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  return dt.getUTCFullYear() === y && dt.getUTCMonth() === m - 1 && dt.getUTCDate() === d;
+}
+
 export function pickupProblem(ymd: string, now: Date = new Date()): null | 'format' | 'past' | 'soon' | 'closed' | 'far' {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(ymd) || Number.isNaN(Date.parse(ymd))) return 'format';
+  if (!isRealDate(ymd)) return 'format';
   const today = brussels(now).ymd;
   if (ymd < today) return 'past';
   if (ymd < addDays(today, MIN_LEAD_DAYS)) return 'soon';

@@ -48,6 +48,8 @@ test('pickup dates: closed days, lead time, past, format', () => {
   assert.equal(pickupProblem('2026-10-20', now), 'closed'); // Tue
   assert.equal(pickupProblem('2026-10-22', now), 'closed'); // Thu
   assert.equal(pickupProblem('16/10/2026', now), 'format');
+  assert.equal(pickupProblem('2027-02-31', now), 'format'); // would roll over to Wed 3 March
+  assert.equal(pickupProblem('2026-13-01', now), 'format');
   assert.equal(firstPickupDate(now), '2026-10-16');
 });
 

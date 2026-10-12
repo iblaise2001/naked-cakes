@@ -1,6 +1,6 @@
 // One schema per form, shared by the browser (inline errors) and the endpoint (the real gate).
 // Kept dependency-free so it adds almost nothing to the client bundle.
-import { pickupProblem } from './dates.ts';
+import { pickupProblem, isRealDate } from './dates.ts';
 import { shapesFor, maxDeco, type Size } from '../data/cakes.ts';
 
 export type FormId = 'cake' | 'catering' | 'contact' | 'club';
@@ -23,7 +23,7 @@ const oneOf = (...opts: string[]): Rule => (v) => (!v ? null : opts.includes(v) 
 const int = (lo: number, hi: number): Rule => (v) => (!v ? null : /^\d+$/.test(v) && +v >= lo && +v <= hi ? null : 'number');
 const futureDate: Rule = (v) => {
   if (!v) return null;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(v)) return 'format';
+  if (!isRealDate(v)) return 'format';
   const today = new Date().toISOString().slice(0, 10);
   return v < today ? 'past' : null;
 };

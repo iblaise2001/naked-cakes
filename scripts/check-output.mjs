@@ -75,8 +75,5 @@ await writeFile(join(DIST, '_headers'), `/*
 
 /brand/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
-
-/*.html
-  Cache-Control: public, max-age=0, s-maxage=300, stale-while-revalidate=86400
 `);
 console.log(`check-output: clean. ${hashes.size} inline script hash(es) in CSP.`);

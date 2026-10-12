@@ -48,7 +48,7 @@ addEventListener('scroll', () => {
 const mnav = document.querySelector<HTMLDetailsElement>('[data-mnav]');
 if (mnav) {
   const summary = mnav.querySelector('summary')!;
-  const labels = { open: summary.getAttribute('aria-label')!, close: document.documentElement.lang.startsWith('nl') ? 'Navigatie sluiten' : document.documentElement.lang.startsWith('fr') ? 'Fermer la navigation' : 'Close navigation' };
+  const labels = { open: summary.getAttribute('aria-label')!, close: summary.dataset.labelClose || summary.getAttribute('aria-label')! };
   mnav.addEventListener('toggle', () => {
     summary.setAttribute('aria-label', mnav.open ? labels.close : labels.open);
     document.documentElement.style.overflow = mnav.open ? 'hidden' : '';
@@ -87,9 +87,10 @@ for (const btn of $$<HTMLButtonElement>('[data-map]')) {
     f.title = btn.dataset.title || 'Map';
     f.loading = 'lazy';
     f.referrerPolicy = 'no-referrer-when-downgrade';
-    const box = Object.assign(document.createElement('div'), { className: 'map-facade' });
+    const box = Object.assign(document.createElement('div'), { className: 'map-facade', tabIndex: -1 });
     box.append(f);
     btn.replaceWith(box);
+    box.focus(); // the button that had focus is gone; keep keyboard users in place
   }, { once: true });
 }
 

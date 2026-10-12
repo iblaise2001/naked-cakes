@@ -29,7 +29,7 @@ const current = (p: string) => (here === p ? 'page' : undefined);
         ))}
       </div>
       <details class="mnav" data-mnav>
-        <summary aria-label={t('nav.open')}><span></span></summary>
+        <summary aria-label={t('nav.open')} data-label-close={t('nav.close')}><span></span></summary>
         <div class="mnav-panel grid-paper">
           <nav aria-label={t('nav.label')}>
             <ul>
