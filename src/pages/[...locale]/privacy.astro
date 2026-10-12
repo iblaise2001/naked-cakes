@@ -77,7 +77,7 @@ const c = {
 <Policy lang={lang} path="/privacy" crumb={t('policy.privacy')} updated="2026-10-12" draftNote={c.draft} title={c.title} description={c.desc} h1={c.h1}>
   {c.sections.map(([h, p]) => <><h2>{h}</h2><p>{p}</p></>)}
   <h2>{c.tableTitle}</h2>
-  <div style="overflow-x:auto">
+  <div style="overflow-x:auto" tabindex="0" role="region" aria-label={c.tableTitle}>
     <table class="price-table" style="min-width:520px">
       <thead><tr>{c.th.map((h) => <th scope="col">{h}</th>)}</tr></thead>
       <tbody>{c.rows.map(([a, b, d]) => <tr><th scope="row">{a}</th><td style="text-align:left;font-weight:400;font-size:inherit;color:inherit">{b}</td><td style="text-align:left;font-weight:400;font-size:inherit;color:inherit">{d}</td></tr>)}</tbody>

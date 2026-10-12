@@ -11,14 +11,19 @@ function renderOpen() {
     const str = JSON.parse(el.dataset.strings || '{}');
     const lang = el.dataset.lang || 'en';
     const loc = lang === 'en' ? 'en-GB' : lang === 'nl' ? 'nl-BE' : 'fr-BE';
-    let text: string;
-    if (s.open) text = `${str.now} ${str.until} ${s.closes}`;
+    const shortDay = (ymd: string) => new Intl.DateTimeFormat(loc, { weekday: 'short', timeZone: 'UTC' }).format(new Date(ymd + 'T12:00:00Z'));
+    const hm = (t: string) => t.replace(/^0/, '');
+    let text: string, short: string;
+    if (s.open) { text = `${str.now} ${str.until} ${hm(s.closes)}`; short = `${str.now}, ${str.until} ${hm(s.closes)}`; }
     else if (s.next) {
       const day = s.next.today ? str.today : new Intl.DateTimeFormat(loc, { weekday: 'long', timeZone: 'UTC' }).format(new Date(s.next.ymd + 'T12:00:00Z'));
-      text = `${str.closed}. ${str.opens} ${day} ${str.at} ${s.next.opens}`;
-    } else text = str.closed;
+      text = `${str.closed}. ${str.opens} ${day} ${str.at} ${hm(s.next.opens)}`;
+      short = `${str.opens} ${s.next.today ? str.today : shortDay(s.next.ymd)} ${hm(s.next.opens)}`;
+    } else { text = short = str.closed; }
     el.dataset.open = String(s.open);
     el.querySelector('[data-text]')!.textContent = text;
+    const sh = el.querySelector('[data-short]');
+    if (sh) sh.textContent = short;
   }
   const today = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/Brussels' }).format(new Date()).toLowerCase().slice(0, 3);
   for (const row of $$('[data-hours-table] tr')) row.dataset.today = String(row.dataset.day === today);

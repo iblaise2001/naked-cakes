@@ -71,7 +71,9 @@ for (const form of document.querySelectorAll<HTMLFormElement>('form[data-form]')
   });
   form.addEventListener('change', (e) => {
     const el = e.target as HTMLInputElement;
-    if (el.type === 'radio' || el.type === 'checkbox' || el.tagName === 'SELECT') {
+    // Native date and time pickers on phones rarely fire blur: validate them as soon as a value is picked.
+    if ((el.type === 'date' || el.type === 'time') && el.value) showError(form, el.name, validateField(id, el.name, values(form)));
+    else if (el.type === 'radio' || el.type === 'checkbox' || el.tagName === 'SELECT') {
       const field = form.querySelector<HTMLElement>(`[data-field="${el.name}"]`);
       if (field?.dataset.invalid === 'true') showError(form, el.name, validateField(id, el.name, values(form)));
     }

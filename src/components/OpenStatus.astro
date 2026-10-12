@@ -13,7 +13,7 @@ const strings = { now: t('open.now'), until: t('open.until'), closed: t('open.cl
 ---
 {variant === 'pill' ? (
   <a class="open-pill" href={href(lang, '/visit') + '#hours'} data-open-status data-lang={lang} data-strings={JSON.stringify(strings)}>
-    <span class="dot" aria-hidden="true"></span><span data-text>{openDays}</span>
+    <span class="dot" aria-hidden="true"></span><span data-text class="long">{openDays}</span><span data-short class="short" aria-hidden="true">{openDays}</span>
   </a>
 ) : (
   <span data-open-status data-lang={lang} data-strings={JSON.stringify(strings)}><span data-text>{openDays}</span></span>

@@ -10,7 +10,8 @@ const photos = [
   // name, wix id, optional crop as fractions [left, top, width, height]
   ['red-velvet-slice', '4f3ed69078104add998c96d0b38908e4'],
   ['rosette-cake', '60fdfd9d2ac14e5092d6de51f0f192cf'],
-  ['heart-cake-cherries', 'a09c11775020468ea3df5eda73d3d56f', [0, 0.12, 1, 0.62]],
+  // Excluded: a09c1177 (heart cake with a name piped on it), and the other cakes with lettering
+  // (0bc01359, 6dd8a2c6, eccded21, ecf62d1b): the client does not write on cakes.
   ['white-heart-cake', '3797f267a8044c7cac5ac87a9207fda5', [0, 0.02, 1, 0.7]],
   ['cookies-choc-chip', '3a39af75e54b42c2b841bf57c2b4685a'],
   ['cookies-red-velvet', '4e65f431b0a04665b2ceebdd6ebf848c'],
@@ -31,7 +32,25 @@ const photos = [
   ['jessie-boombox', 'a572cfd9d4aa42bcb889a234700d395e'],
 ];
 
+// Style examples cut from the client's own collection slide ("...we get creative", 6250px).
+// Fractions of the slide; the pink grid background is the client's own artwork.
+const slide = `${SRC}/b6ff09_c8e57a7ad39e48759f97e0ad4275fd2b~mv2.png`;
+const slideCrops = [
+  ['vintage-pair', [818 / 1300, 297 / 919, 454 / 1300, 205 / 919]],
+  ['vintage-heart', [1022 / 1300, 288 / 919, 256 / 1300, 214 / 919]],
+];
+
 await mkdir(OUT, { recursive: true });
+for (const [name, [l, t, w, h]] of slideCrops) {
+  const m = await sharp(slide).metadata();
+  await sharp(slide)
+    .extract({ left: Math.round(l * m.width), top: Math.round(t * m.height), width: Math.round(w * m.width), height: Math.round(h * m.height) })
+    .flatten({ background: '#FF8AC9' })
+    .resize({ width: 2560, height: 2560, fit: 'inside', withoutEnlargement: true })
+    .jpeg({ quality: 86, mozjpeg: true })
+    .toFile(`${OUT}/${name}.jpg`);
+  console.log(name);
+}
 for (const [name, id, crop] of photos) {
   const file = `${SRC}/b6ff09_${id}~mv2.${id === '3348e4a8fb9c45cc9dd857691fe93b8b' || id === '2174a4de76e94faa82de7a5420507a70' ? 'png' : 'jpg'}`;
   let img = sharp(file).rotate();

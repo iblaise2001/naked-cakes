@@ -15,7 +15,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      filter: (page) => !/\/(thanks|404)$/.test(page.replace(/\/$/, '')),
+      filter: (page) => !/\/(thanks|oops|404)$/.test(page.replace(/\/$/, '')),
       i18n: { defaultLocale: 'en', locales: { en: 'en', nl: 'nl-BE', fr: 'fr-BE' } },
     }),
   ],
