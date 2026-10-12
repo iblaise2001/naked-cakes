@@ -1,0 +1,64 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import ClubForm from '../../components/ClubForm.astro';
+import { localePaths, useT, type Lang } from '../../i18n/ui.ts';
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+
+const c = {
+  en: {
+    title: 'Join the Sweet Bite Club newsletter | Naked Cakes',
+    desc: 'Join the Naked Cakes Sweet Bite Club: early access to new drops and weekend specials, first dibs on events, real talk from the founder and a sweet birthday surprise.',
+    h1: ['Join the', 'Sweet Bite Club'],
+    intro: 'You’re not just here for cake. You’re here for main character snacking, dessert-fuelled therapy, and slightly chaotic updates from behind the scenes at Naked Cakes.',
+    getTitle: 'Inside the club, you get:',
+    perks: ['Exclusive access to new drops & weekend specials', 'First-in-line updates for events, collabs and more', 'Real talk from the founder (aka me) about baking, burnout and everything in between', 'Sneak peeks, emotional support emails & other snack-fuelled moments'],
+    privacy: 'We only ask for what we need: your first name, your email, and your birthday if you want a treat (day and month, never the year).',
+    alt: 'Plate of homemade cookies with chocolate chunks and pink candy hearts',
+  },
+  nl: {
+    title: 'Word lid van de Sweet Bite Club nieuwsbrief | Naked Cakes',
+    desc: 'Word lid van de Sweet Bite Club van Naked Cakes: als eerste nieuwe drops en weekendspecials, voorrang op events, echte praat van de oprichter en een zoete verjaardagsverrassing.',
+    h1: ['Word lid van de', 'Sweet Bite Club'],
+    intro: 'Je bent hier niet alleen voor taart. Je bent hier voor main character snacking, dessert-therapie en licht chaotische updates van achter de schermen bij Naked Cakes.',
+    getTitle: 'In de club krijg je:',
+    perks: ['Exclusieve toegang tot nieuwe drops & weekendspecials', 'Als eerste nieuws over events, collabs en meer', 'Echte praat van de oprichter (ik dus) over bakken, burn-out en alles daartussen', 'Sneak peeks, emotionele steunmails & andere snackmomenten'],
+    privacy: 'We vragen alleen wat we nodig hebben: je voornaam, je e-mail en je verjaardag als je een traktatie wil (dag en maand, nooit het jaar).',
+    alt: 'Bord huisgemaakte cookies met chocoladestukjes en roze snoephartjes',
+  },
+  fr: {
+    title: 'Rejoins la newsletter Sweet Bite Club | Naked Cakes',
+    desc: 'Rejoins le Sweet Bite Club de Naked Cakes : les nouveautés et spécialités du week-end en avant-première, les événements en premier, les nouvelles de la fondatrice et une surprise d’anniversaire.',
+    h1: ['Rejoins le', 'Sweet Bite Club'],
+    intro: 'Tu n’es pas juste là pour le gâteau. Tu es là pour grignoter comme un personnage principal, la thérapie par le dessert et les nouvelles un peu chaotiques des coulisses de Naked Cakes.',
+    getTitle: 'Dans le club, tu reçois :',
+    perks: ['Un accès exclusif aux nouveautés & spécialités du week-end', 'Les infos événements, collabs et plus en avant-première', 'Les vraies nouvelles de la fondatrice (moi) sur la pâtisserie, le burn-out et tout le reste', 'Des avant-goûts, des e-mails de soutien moral & d’autres moments gourmands'],
+    privacy: 'On demande seulement le nécessaire : ton prénom, ton e-mail et ton anniversaire si tu veux une douceur (jour et mois, jamais l’année).',
+    alt: 'Assiette de cookies maison aux morceaux de chocolat et cœurs roses',
+  },
+}[lang];
+---
+<Base lang={lang} title={c.title} description={c.desc} ogImage="club" showClub={false} breadcrumb={[{ name: t('nav.club'), path: '/sweet-bite-club' }]}>
+  <section class="hero grid-hot" aria-labelledby="club-title">
+    <div class="wrap split">
+      <div class="stack">
+        <h1 id="club-title" class="title-xl">{c.h1[0]}<br /><span style="color:var(--white);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill">{c.h1[1]}</span></h1>
+        <p class="lead" style="font-weight:600">{c.intro}</p>
+      </div>
+      <div class="photo tilt-r" style="aspect-ratio:1;max-width:460px;justify-self:center"><Photo name="cookie-plate" alt={c.alt} sizes="(min-width: 900px) 460px, 90vw" priority widths={[360, 460, 720, 920]} /></div>
+    </div>
+  </section>
+  <section class="section grid-paper" aria-labelledby="perks-title">
+    <div class="wrap split" style="align-items:start">
+      <div class="stack">
+        <h2 id="perks-title" style="font-size:var(--step-3)">{c.getTitle}</h2>
+        <ul class="check-list reveal-stagger">{c.perks.map((p) => <li>{p}</li>)}</ul>
+        <p class="callout">{c.privacy}</p>
+      </div>
+      <div class="card card-pad"><ClubForm lang={lang} /></div>
+    </div>
+  </section>
+</Base>

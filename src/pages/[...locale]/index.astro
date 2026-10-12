@@ -1,0 +1,306 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import OpenStatus from '../../components/OpenStatus.astro';
+import VisitBlock from '../../components/VisitBlock.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import { business, mapsLinks } from '../../data/business.ts';
+import { formatPrice } from '../../data/menu.ts';
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const P = (n: number) => formatPrice(n, lang);
+
+const c = {
+  en: {
+    title: 'Red velvet cake & NYC cookies in Vilvoorde | Naked Cakes',
+    desc: 'American-inspired dessert and comfort food café near Brussels. Red velvet cake, big NYC cookies, pink matcha and brunch in Vilvoorde. Order a cake or just drop by.',
+    layers: ['Good <em>cakes</em>', 'Good <em>cookies</em>', 'Good <em>vibes</em>'],
+    sub: 'Your American-inspired dessert & comfort food café near Brussels.',
+    heroAlt: 'A thick slice of red velvet cake with cream cheese frosting between the layers, a fork on the side',
+    heroNote: 'our #1',
+    rootsEyebrow: 'Our roots', rootsTitle: 'Red velvet, done properly.',
+    roots: 'Naked Cakes started with the dream of doing Red Velvet right. No dry sponge, no fake fluff, just real velvety goodness with cream cheese frosting that makes people obsessed. It’s still our signature, but today you’ll also find:',
+    rootsList: ['Big NYC-style cookies', 'Cinnamon rolls that belong in a rom-com', 'Comfort food (that really does comfort your soul)', 'Coffee, matcha & monthly drink specials'],
+    rootsEnd: 'So yes, Red Velvet built the house, but we’ve furnished it with everything you need for your comfort food era.',
+    rosetteAlt: 'Two-layer red velvet cake topped with white and pink piped frosting rosettes',
+    goodTitle: 'The good stuff', goodLead: 'We’re not a bakery. We’re a comfort food café with dessert vibes and main character energy.',
+    products: [
+      { name: 'Red velvet slice', price: 9, photo: 'red-velvet-slice', alt: 'Slice of red velvet cake on a white plate', best: true, href: '/menu#cake' },
+      { name: 'Choco chip & hazelnut', price: 6, photo: 'cookies-choc-chip', alt: 'Two big NYC-style chocolate chip cookies on black and white checkered paper', best: true, href: '/menu#cookies' },
+      { name: 'Pink iced matcha', price: 6.9, photo: 'pink-matcha-sneakers', alt: 'Someone in white sneakers and smiley socks holding a pink iced matcha with green foam', best: true, href: '/menu#matcha' },
+      { name: 'American pancakes', price: 14, photo: 'pancakes-butter', alt: 'Stack of fluffy American pancakes with butter and syrup on a diner plate', href: '/menu#brunch' },
+      { name: 'Red velvet cookie', price: 6, photo: 'cookies-red-velvet', alt: 'Two deep red velvet NYC cookies with white chocolate on checkered paper', href: '/menu#cookies' },
+      { name: 'Kids pancakes', price: 9, photo: 'kids-pancakes', alt: 'A kid reaching for a pancake stack with whipped cream and sprinkles on a red tray', href: '/menu#kids' },
+    ],
+    best: 'Best seller',
+    vibeTitle: ['Not just cake.', 'A whole vibe.'],
+    vibe: ['Think cinnamon rolls and grilled cheese with a secret sauce.', 'Think flavourful hotdogs, fluffy American pancakes or a yummy turkey bacon & egg toasted sandwich.', 'Think coffee, pink matcha, foamy lattes, iced teas, and drinks that change with the season.'],
+    vibeEnd: 'We’re a café where dessert is queen, but comfort food, matcha & coffee keep the party going.',
+    kidAlt: 'A toddler happily digging into a pancake with both hands', smashAlt: 'Red velvet cake with a scoop of vanilla ice cream in a Naked Cakes box',
+    cakeRibbon: 'Cake collections', cakeTitle: 'Two layers of joy. Zero sculptures.',
+    cake: 'All our cakes are red velvet. Yup. All of them. Pick a size, a shape and a style, then let us surprise you with colours or go classic all-white.',
+    cakeEnd: 'That’s it. Easy. Delicious. Naked.', from: 'From', cakeAlt: 'Pink heart-shaped cake with ruffled piping and glossy cherries on top', cakeAlt2: 'White heart cake covered in vintage piped frosting',
+    jessieEyebrow: 'Hi, I’m Jessie', jessieQuote: ['Loud laugh, big glasses,', 'soft heart, zero chill.'],
+    jessie: 'I didn’t build a dream café. I built a rebellion. For people who care about the taste as much as the photos.', jessieCta: 'Read the whole story',
+    jessieAlt: 'Jessie, founder of Naked Cakes, holding up a towering stack of cookies on a pink cake stand',
+    notTitle: 'Who we’re not',
+    not: [
+      ['Same-old café vibes.', 'Predictable isn’t our thing.'],
+      ['Fondant-covered sugar sculptures.', 'We bake, we don’t sculpt.'],
+      ['Decorations overload.', 'If the cake, cookie, or latte isn’t good on its own, it’s not good enough.'],
+      ['Custom everything.', 'We do what we do best. No “but can you make it in the shape of my dog?” requests.'],
+      ['Playing it safe.', 'Our flavours are bold, our comfort food is messy in the best way, and our vibe is anything but basic.'],
+    ],
+    visitTitle: 'Come say hi', visitIntro: 'Wednesday, Friday and the whole weekend. Bring your appetite (and your friends).',
+    igTitle: 'Fresh from the gram', igCta: 'Follow @nakedcakes.be',
+    igAlt: ['Pink heart cake with red cherries on a cake stand', 'A plate of cookies studded with chocolate and pink hearts', 'Pancake stack dripping with syrup next to a disco ball'],
+    eggNote: 'Psst. The old site had a secret. So does this one.',
+  },
+  nl: {
+    title: 'Red velvet taart & NYC cookies in Vilvoorde | Naked Cakes',
+    desc: 'Amerikaans geïnspireerd dessert- en comfort food café vlak bij Brussel. Red velvet taart, grote NYC cookies, pink matcha en brunch in Vilvoorde. Bestel een taart of kom langs.',
+    layers: ['Good <em>cakes</em>', 'Good <em>cookies</em>', 'Good <em>vibes</em>'],
+    sub: 'Jouw Amerikaans geïnspireerde dessert- & comfort food café vlak bij Brussel.',
+    heroAlt: 'Een dikke punt red velvet taart met cream cheese frosting tussen de lagen, een vork ernaast',
+    heroNote: 'onze #1',
+    rootsEyebrow: 'Onze roots', rootsTitle: 'Red velvet, zoals het hoort.',
+    roots: 'Naked Cakes begon met één droom: Red Velvet goed doen. Geen droog biscuit, geen nep-luchtigheid, gewoon echte fluweelzachte goodness met cream cheese frosting waar mensen verslaafd aan raken. Het is nog altijd onze signature, maar vandaag vind je ook:',
+    rootsList: ['Grote NYC-style cookies', 'Cinnamon rolls die in een romcom thuishoren', 'Comfort food (dat echt je ziel troost)', 'Koffie, matcha & maandelijkse drankspecials'],
+    rootsEnd: 'Dus ja, Red Velvet heeft het huis gebouwd, maar wij hebben het ingericht met alles wat je nodig hebt voor je comfort food era.',
+    rosetteAlt: 'Red velvet taart met twee lagen en witte en roze gespoten rozetten',
+    goodTitle: 'The good stuff', goodLead: 'We zijn geen bakkerij. We zijn een comfort food café met dessert vibes en main character energy.',
+    products: [
+      { name: 'Red velvet slice', price: 9, photo: 'red-velvet-slice', alt: 'Punt red velvet taart op een wit bord', best: true, href: '/menu#cake' },
+      { name: 'Choco chip & hazelnoot', price: 6, photo: 'cookies-choc-chip', alt: 'Twee grote NYC-style chocolate chip cookies op zwart-wit geruit papier', best: true, href: '/menu#cookies' },
+      { name: 'Pink iced matcha', price: 6.9, photo: 'pink-matcha-sneakers', alt: 'Iemand in witte sneakers en smileysokken met een pink iced matcha met groene foam', best: true, href: '/menu#matcha' },
+      { name: 'American pancakes', price: 14, photo: 'pancakes-butter', alt: 'Stapel fluffy American pancakes met boter en siroop op een dinerbord', href: '/menu#brunch' },
+      { name: 'Red velvet cookie', price: 6, photo: 'cookies-red-velvet', alt: 'Twee dieprode red velvet NYC cookies met witte chocolade op geruit papier', href: '/menu#cookies' },
+      { name: 'Kids pancakes', price: 9, photo: 'kids-pancakes', alt: 'Een kind grijpt naar pancakes met slagroom en sprinkles op een rood dienblad', href: '/menu#kids' },
+    ],
+    best: 'Best seller',
+    vibeTitle: ['Niet gewoon taart.', 'Een hele vibe.'],
+    vibe: ['Denk cinnamon rolls en grilled cheese met een geheime saus.', 'Denk smaakvolle hotdogs, fluffy American pancakes of een lekkere getoaste sandwich met kalkoenbacon en ei.', 'Denk koffie, pink matcha, schuimige lattes, iced teas en drankjes die met het seizoen veranderen.'],
+    vibeEnd: 'Bij ons is dessert de koningin, maar comfort food, matcha & koffie houden het feestje gaande.',
+    kidAlt: 'Een peuter die met twee handen in een pancake duikt', smashAlt: 'Red velvet taart met een bol vanille-ijs in een Naked Cakes doos',
+    cakeRibbon: 'Taartcollecties', cakeTitle: 'Twee lagen geluk. Nul sculpturen.',
+    cake: 'Al onze taarten zijn red velvet. Jep. Allemaal. Kies een grootte, een vorm en een stijl, en laat ons je verrassen met kleuren of ga voor klassiek helemaal wit.',
+    cakeEnd: 'Zo simpel. Lekker. Naked.', from: 'Vanaf', cakeAlt: 'Roze hartvormige taart met ruches en glanzende kersen', cakeAlt2: 'Witte harttaart vol vintage gespoten frosting',
+    jessieEyebrow: 'Hoi, ik ben Jessie', jessieQuote: ['Luide lach, grote bril,', 'zacht hart, zero chill.'],
+    jessie: 'Ik heb geen droomcafé gebouwd. Ik heb een rebellie gebouwd. Voor mensen die evenveel om de smaak geven als om de foto’s.', jessieCta: 'Lees het hele verhaal',
+    jessieAlt: 'Jessie, oprichter van Naked Cakes, met een torenhoge stapel cookies op een roze taartplateau',
+    notTitle: 'Wie we niet zijn',
+    not: [
+      ['Dezelfde oude café-vibes.', 'Voorspelbaar is niet ons ding.'],
+      ['Suikersculpturen in fondant.', 'Wij bakken, we beeldhouwen niet.'],
+      ['Decoratie-overload.', 'Als de taart, cookie of latte op zich niet goed is, is hij niet goed genoeg.'],
+      ['Alles op maat.', 'We doen wat we het best kunnen. Geen “kan je hem in de vorm van mijn hond maken?”.'],
+      ['Op veilig spelen.', 'Onze smaken zijn bold, ons comfort food is messy op de beste manier en onze vibe is allesbehalve basic.'],
+    ],
+    visitTitle: 'Kom hallo zeggen', visitIntro: 'Woensdag, vrijdag en het hele weekend. Breng je honger mee (en je vrienden).',
+    igTitle: 'Vers van de gram', igCta: 'Volg @nakedcakes.be',
+    igAlt: ['Roze harttaart met rode kersen op een taartplateau', 'Een bord cookies met chocolade en roze hartjes', 'Stapel pancakes met siroop naast een discobal'],
+    eggNote: 'Psst. De oude site had een geheim. Deze ook.',
+  },
+  fr: {
+    title: 'Red velvet cake & cookies NYC à Vilvoorde | Naked Cakes',
+    desc: 'Café desserts et comfort food à l’américaine près de Bruxelles. Red velvet cake, gros cookies NYC, pink matcha et brunch à Vilvoorde. Commande un gâteau ou passe nous voir.',
+    layers: ['Good <em>cakes</em>', 'Good <em>cookies</em>', 'Good <em>vibes</em>'],
+    sub: 'Ton café desserts & comfort food à l’américaine, près de Bruxelles.',
+    heroAlt: 'Une grosse part de red velvet cake avec du cream cheese frosting entre les couches, une fourchette à côté',
+    heroNote: 'notre n°1',
+    rootsEyebrow: 'Nos racines', rootsTitle: 'Le red velvet, comme il faut.',
+    roots: 'Naked Cakes est né d’un rêve : faire le Red Velvet comme il faut. Pas de génoise sèche, pas de fausse légèreté, juste un vrai moelleux velouté avec un cream cheese frosting qui rend accro. C’est toujours notre signature, mais aujourd’hui tu trouveras aussi :',
+    rootsList: ['De gros cookies style NYC', 'Des cinnamon rolls dignes d’une comédie romantique', 'Du comfort food (qui réconforte vraiment)', 'Café, matcha & boissons du mois'],
+    rootsEnd: 'Alors oui, le Red Velvet a construit la maison, mais on l’a meublée avec tout ce qu’il faut pour ton ère comfort food.',
+    rosetteAlt: 'Red velvet cake à deux couches avec des rosaces de frosting blanches et roses',
+    goodTitle: 'The good stuff', goodLead: 'On n’est pas une boulangerie. On est un café comfort food avec des vibes dessert et une énergie de personnage principal.',
+    products: [
+      { name: 'Red velvet slice', price: 9, photo: 'red-velvet-slice', alt: 'Part de red velvet cake sur une assiette blanche', best: true, href: '/menu#cake' },
+      { name: 'Choco chip & noisette', price: 6, photo: 'cookies-choc-chip', alt: 'Deux gros cookies style NYC aux pépites de chocolat sur papier à damier noir et blanc', best: true, href: '/menu#cookies' },
+      { name: 'Pink iced matcha', price: 6.9, photo: 'pink-matcha-sneakers', alt: 'Quelqu’un en baskets blanches et chaussettes smiley tenant un pink iced matcha à la mousse verte', best: true, href: '/menu#matcha' },
+      { name: 'American pancakes', price: 14, photo: 'pancakes-butter', alt: 'Pile de pancakes américains moelleux avec beurre et sirop sur une assiette de diner', href: '/menu#brunch' },
+      { name: 'Cookie red velvet', price: 6, photo: 'cookies-red-velvet', alt: 'Deux cookies NYC red velvet rouge profond au chocolat blanc sur papier à damier', href: '/menu#cookies' },
+      { name: 'Kids pancakes', price: 9, photo: 'kids-pancakes', alt: 'Un enfant attrape des pancakes avec chantilly et sprinkles sur un plateau rouge', href: '/menu#kids' },
+    ],
+    best: 'Best seller',
+    vibeTitle: ['Pas juste du gâteau.', 'Toute une vibe.'],
+    vibe: ['Pense cinnamon rolls et grilled cheese avec une sauce secrète.', 'Pense hotdogs pleins de goût, pancakes américains bien fluffy ou un bon sandwich toasté bacon de dinde et œuf.', 'Pense café, pink matcha, lattes mousseux, iced teas et boissons qui changent avec les saisons.'],
+    vibeEnd: 'Chez nous, le dessert est roi, mais le comfort food, le matcha et le café font durer la fête.',
+    kidAlt: 'Un tout-petit qui plonge ses deux mains dans un pancake', smashAlt: 'Red velvet cake avec une boule de glace vanille dans une boîte Naked Cakes',
+    cakeRibbon: 'Collections de gâteaux', cakeTitle: 'Deux couches de bonheur. Zéro sculpture.',
+    cake: 'Tous nos gâteaux sont au red velvet. Oui. Tous. Choisis une taille, une forme et un style, puis laisse-nous te surprendre avec les couleurs ou reste classique tout blanc.',
+    cakeEnd: 'C’est tout. Facile. Délicieux. Naked.', from: 'Dès', cakeAlt: 'Gâteau rose en forme de cœur avec volants et cerises brillantes', cakeAlt2: 'Gâteau cœur blanc couvert de frosting vintage',
+    jessieEyebrow: 'Salut, moi c’est Jessie', jessieQuote: ['Gros rire, grandes lunettes,', 'cœur tendre, zéro chill.'],
+    jessie: 'Je n’ai pas construit un café de rêve. J’ai construit une rébellion. Pour ceux qui tiennent autant au goût qu’aux photos.', jessieCta: 'Lire toute l’histoire',
+    jessieAlt: 'Jessie, fondatrice de Naked Cakes, tenant une énorme pile de cookies sur un présentoir rose',
+    notTitle: 'Ce qu’on n’est pas',
+    not: [
+      ['Les mêmes vieilles vibes de café.', 'Prévisible, c’est pas notre truc.'],
+      ['Des sculptures en pâte à sucre.', 'On fait de la pâtisserie, pas de la sculpture.'],
+      ['La surcharge de déco.', 'Si le gâteau, le cookie ou le latte n’est pas bon tout seul, il n’est pas assez bon.'],
+      ['Du sur-mesure pour tout.', 'On fait ce qu’on fait de mieux. Pas de « tu peux le faire en forme de mon chien ? ».'],
+      ['Jouer la sécurité.', 'Nos saveurs sont audacieuses, notre comfort food est joyeusement messy et notre vibe est tout sauf basique.'],
+    ],
+    visitTitle: 'Viens dire bonjour', visitIntro: 'Le mercredi, le vendredi et tout le week-end. Viens avec ton appétit (et tes potes).',
+    igTitle: 'Tout frais d’Insta', igCta: 'Suis @nakedcakes.be',
+    igAlt: ['Gâteau cœur rose avec des cerises rouges sur un présentoir', 'Une assiette de cookies au chocolat et petits cœurs roses', 'Pile de pancakes au sirop à côté d’une boule disco'],
+    eggNote: 'Psst. L’ancien site avait un secret. Celui-ci aussi.',
+  },
+}[lang];
+---
+<Base lang={lang} title={c.title} description={c.desc}>
+  <section class="hero grid-paper" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="cake" id="hero-title" aria-label="Good cakes, good cookies, good vibes">
+          <span class="piping" aria-hidden="true"></span>
+          <svg class="cherry" viewBox="0 0 40 48" aria-hidden="true"><path d="M21 20c1-8 5-14 12-17" fill="none" stroke="#050A2A" stroke-width="3" stroke-linecap="round"/><circle cx="19" cy="31" r="14" fill="#C8102E" stroke="#050A2A" stroke-width="3"/><ellipse cx="14" cy="26" rx="4" ry="3" fill="#FFF" opacity=".75"/></svg>
+          <span class="layer" style="--i:0" aria-hidden="true" set:html={c.layers[0]} />
+          <span class="frost" style="--i:0" aria-hidden="true"></span>
+          <span class="layer" style="--i:1" aria-hidden="true" set:html={c.layers[1]} />
+          <span class="frost" style="--i:1" aria-hidden="true"></span>
+          <span class="layer" style="--i:2" aria-hidden="true" set:html={c.layers[2]} />
+        </h1>
+        <p class="hero-sub">{c.sub}</p>
+        <div class="btn-row">
+          <a class="btn" href={href(lang, '/order-cake')}><Icon name="cake" />{t('cta.order')}</a>
+          <a class="btn btn-ghost" href={href(lang, '/menu')}>{t('cta.menu')}</a>
+        </div>
+        <div class="visit-strip">
+          <strong><OpenStatus lang={lang} variant="line" /></strong>
+          <span class="addr">{business.street}, {business.city}</span>
+          <a class="dir btn btn-small btn-sky" href={mapsLinks.google} rel="noopener"><Icon name="pin" />{t('cta.directions')}</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <p class="hand" aria-hidden="true">{c.heroNote} &#8600;</p>
+        <div class="photo"><Photo name="red-velvet-slice" alt={c.heroAlt} sizes="(min-width: 900px) 520px, 92vw" widths={[360, 520, 760, 1040, 1476]} priority /></div>
+        <span class="stamp" aria-hidden="true">Best<br />seller</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="checker" aria-hidden="true"></div>
+
+  <section class="section" aria-labelledby="roots-title">
+    <div class="wrap split">
+      <div class="photo tilt-l reveal parallax" style="aspect-ratio:1/1;max-width:560px">
+        <Photo name="rosette-cake" alt={c.rosetteAlt} sizes="(min-width: 900px) 560px, 92vw" />
+      </div>
+      <div class="stack reveal">
+        <p class="eyebrow">{c.rootsEyebrow}</p>
+        <h2 id="roots-title" style="font-size:var(--step-4)">{c.rootsTitle}</h2>
+        <p class="lead">{c.roots}</p>
+        <ul class="check-list">{c.rootsList.map((l) => <li>{l}</li>)}</ul>
+        <p>{c.rootsEnd}</p>
+        <a class="link-arrow" href={href(lang, '/menu')}>{t('cta.menu')} &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section paper" aria-labelledby="good-title" id="good-stuff">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="stack">
+          <h2 id="good-title" data-egg-target>{c.goodTitle}</h2>
+          <p class="lead">{c.goodLead}</p>
+        </div>
+        <div class="egg">
+          <button class="btn btn-sky btn-small" type="button" data-egg="#good-title" aria-describedby="egg-hint">{t('egg.hold')}</button>
+          <span id="egg-hint" class="sr-only">{t('egg.hint')}</span>
+        </div>
+      </div>
+      <ul class="products reveal-stagger" role="list" style="list-style:none;padding:0;margin:0">
+        {c.products.map((p) => (
+          <li>
+            <a class="product" href={href(lang, p.href)}>
+              {p.best && <span class="stamp" aria-hidden="true">{c.best}</span>}
+              <div class="photo"><Photo name={p.photo} alt={p.alt} sizes="(min-width: 1200px) 400px, (min-width: 640px) 45vw, 92vw" widths={[360, 560, 800]} /></div>
+              <div class="product-meta"><h3>{p.name}</h3><span class="price">{P(p.price)}</span></div>
+              {p.best && <span class="sr-only">{c.best}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section velvet" aria-labelledby="vibe-title">
+    <div class="wrap split flip">
+      <div class="stack reveal">
+        <h2 id="vibe-title" style="font-size:var(--step-4)">{c.vibeTitle[0]}<br /><span style="color:var(--pink)">{c.vibeTitle[1]}</span></h2>
+        {c.vibe.map((v) => <p class="lead" style="max-width:40ch">{v}</p>)}
+        <p style="font-weight:700;color:var(--white)">{c.vibeEnd}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);align-items:center">
+        <div class="photo tilt-l" style="aspect-ratio:3/4;box-shadow:9px 9px 0 var(--pink)"><Photo name="smash-box" alt={c.smashAlt} sizes="(min-width: 900px) 300px, 45vw" widths={[300, 480, 700]} /></div>
+        <div class="photo tilt-r parallax" style="aspect-ratio:3/4;box-shadow:9px 9px 0 var(--pink)"><Photo name="kid-eating" alt={c.kidAlt} sizes="(min-width: 900px) 300px, 45vw" widths={[300, 480, 700]} /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section grid-hot" aria-labelledby="cakes-title">
+    <div class="wrap split">
+      <div class="stack reveal">
+        <span class="ribbon">{c.cakeRibbon}</span>
+        <h2 id="cakes-title" style="font-size:var(--step-4);margin-top:var(--space-5)">{c.cakeTitle}</h2>
+        <p class="lead" style="font-weight:600">{c.cake}</p>
+        <p style="font-weight:800">{c.cakeEnd}</p>
+        <div class="btn-row">
+          <a class="btn btn-navy" href={href(lang, '/order-cake')}><Icon name="cake" />{t('cta.order')}</a>
+          <span style="font:400 var(--step-2)/1 var(--font-display);text-transform:uppercase">{c.from} {P(75)}</span>
+        </div>
+      </div>
+      <div style="position:relative;min-height:420px" class="reveal">
+        <div class="photo tilt-r" style="width:68%;aspect-ratio:9/10;margin-left:auto"><Photo name="heart-cake-cherries" alt={c.cakeAlt} sizes="(min-width: 900px) 400px, 62vw" widths={[360, 560, 800]} /></div>
+        <div class="photo tilt-l" style="position:absolute;left:0;bottom:-1rem;width:50%;aspect-ratio:4/5"><Photo name="white-heart-cake" alt={c.cakeAlt2} sizes="(min-width: 900px) 300px, 46vw" widths={[300, 480, 700]} /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section velvet" aria-labelledby="jessie-title">
+    <div class="wrap split">
+      <div class="photo tilt-l reveal" style="aspect-ratio:2/3;max-width:440px;box-shadow:12px 12px 0 var(--pink)">
+        <Photo name="jessie-cookie-tower" alt={c.jessieAlt} sizes="(min-width: 900px) 440px, 88vw" />
+      </div>
+      <div class="stack reveal">
+        <p class="eyebrow" style="color:var(--pink-soft)">{c.jessieEyebrow}</p>
+        <h2 id="jessie-title" class="jessie-quote">{c.jessieQuote[0]}<br /><span class="hl">{c.jessieQuote[1]}</span></h2>
+        <p class="lead">{c.jessie}</p>
+        <a class="btn btn-ghost" href={href(lang, '/about')}>{c.jessieCta}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section grid-paper" aria-labelledby="not-title">
+    <div class="wrap-narrow">
+      <h2 id="not-title" style="font-size:var(--step-4);margin-bottom:var(--space-6)">{c.notTitle}</h2>
+      <ul class="not-list reveal-stagger">
+        {c.not.map(([a, b]) => <li><span class="x" aria-hidden="true">&times;</span><strong>{a}</strong><span>{b}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="visit-title" id="visit">
+    <div class="wrap">
+      <VisitBlock lang={lang} heading={c.visitTitle} intro={c.visitIntro} />
+    </div>
+  </section>
+
+  <section class="section-tight paper" aria-labelledby="ig-title">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:var(--space-6)">
+        <h2 id="ig-title" style="font-size:var(--step-3)">{c.igTitle}</h2>
+        <a class="btn btn-ghost" href={business.instagram} rel="noopener"><Icon name="instagram" />{c.igCta}</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)">
+        {['heart-cake-cherries', 'cookie-plate', 'pancake-stack'].map((n, i) => (
+          <a class="photo" style="aspect-ratio:1;box-shadow:var(--shadow-sticker)" href={business.instagram} rel="noopener"><Photo name={n} alt={c.igAlt[i]} sizes="(min-width: 1320px) 420px, 31vw" widths={[200, 360, 560]} /></a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

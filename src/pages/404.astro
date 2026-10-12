@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { href } from '../i18n/ui.ts';
+import { business, mapsLinks } from '../data/business.ts';
+---
+<Base lang="en" title="Page not found | Naked Cakes Vilvoorde" description="This page went the way of the last red velvet slice. Find the menu, our address in Vilvoorde, or order a cake." noindex>
+  <section class="section grid-paper">
+    <div class="wrap-narrow card card-pad stack" style="text-align:center">
+      <p class="title-xl display" style="font-size:clamp(5rem,20vw,12rem);color:var(--pink)">404</p>
+      <h1 style="font-size:var(--step-3)">This page went the way of the last red velvet slice.</h1>
+      <p class="lead" style="margin-inline:auto">Gone. Eaten. No crumbs left. But the menu is still here, and so are we.</p>
+      <div class="btn-row" style="justify-content:center"><a class="btn" href={href('en', '/menu')}>See the menu</a><a class="btn btn-ghost" href={href('en', '/order-cake')}>Order a cake</a></div>
+      <p><a href={mapsLinks.google} rel="noopener">{business.street}, {business.postalCode} {business.city}</a></p>
+      <p class="muted"><a href="/nl">Nederlands</a> &middot; <a href="/fr">Français</a></p>
+    </div>
+  </section>
+</Base>

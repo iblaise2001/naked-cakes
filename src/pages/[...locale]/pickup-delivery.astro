@@ -1,0 +1,35 @@
+---
+import Policy from '../../components/Policy.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const note = { en: '', nl: 'Vertaald uit het Engelse origineel. Bij twijfel geldt de Engelse versie.', fr: 'Traduit de l’original anglais. En cas de doute, la version anglaise prévaut.' }[lang];
+---
+<Policy lang={lang} path="/pickup-delivery" crumb={t('policy.pickup')} updated="2026-10-12" draftNote={note || undefined}
+  title={{ en: 'Pickup policy: no delivery, baby | Naked Cakes Vilvoorde', nl: 'Afhaalbeleid: geen levering | Naked Cakes Vilvoorde', fr: 'Politique de retrait : pas de livraison | Naked Cakes Vilvoorde' }[lang]}
+  description={{ en: 'All Naked Cakes orders are pickup only at Jean-Baptiste Nowélei 57 in Vilvoorde. Let us know at least 48 hours ahead if you cannot make your confirmed pickup time.', nl: 'Alle bestellingen bij Naked Cakes worden afgehaald aan de Jean-Baptiste Nowélei 57 in Vilvoorde. Laat het minstens 48 uur op voorhand weten als je niet kan komen.', fr: 'Toutes les commandes Naked Cakes se retirent au Jean-Baptiste Nowélei 57 à Vilvoorde. Préviens-nous au moins 48 heures avant si tu ne peux pas venir au retrait.' }[lang]}
+  h1={{ en: 'Pickup policy (no delivery, baby)', nl: 'Afhaalbeleid (geen levering, baby)', fr: 'Politique de retrait (pas de livraison, baby)' }[lang]}>
+  {lang === 'en' && <>
+    <p>By placing an order with Naked Cakes, you agree that all items are pickup only: no delivery and no cake teleportation.</p>
+    <p>Orders must be picked up on the confirmed date and time.</p>
+    <p>If you can’t make it, please let us know at least 48 hours in advance so we can adjust our baking schedule (we don’t just snap our fingers and cake appears).</p>
+    <h2>Missed pickups or last-minute cancellations (less than 48h) may result in:</h2>
+    <ul><li>No refunds (obviously)</li><li>Restrictions on future orders (aka, we might ghost you)</li><li>Your cake being eaten by our team out of spite (jk… kinda)</li></ul>
+  </>}
+  {lang === 'nl' && <>
+    <p>Door een bestelling te plaatsen bij Naked Cakes ga je ermee akkoord dat alles enkel wordt afgehaald: geen levering en geen taart-teleportatie.</p>
+    <p>Bestellingen moeten worden afgehaald op de bevestigde datum en het bevestigde uur.</p>
+    <p>Lukt het niet? Laat het ons dan minstens 48 uur op voorhand weten, zodat we onze bakplanning kunnen aanpassen (we knippen niet gewoon met onze vingers en hop, taart).</p>
+    <h2>Gemiste afhalingen of annulaties op het laatste moment (minder dan 48u) kunnen leiden tot:</h2>
+    <ul><li>Geen terugbetaling (uiteraard)</li><li>Beperkingen op toekomstige bestellingen (lees: misschien ghosten we je)</li><li>Je taart die uit wrok door ons team wordt opgegeten (grapje… een beetje)</li></ul>
+  </>}
+  {lang === 'fr' && <>
+    <p>En passant commande chez Naked Cakes, tu acceptes que tout se retire sur place : pas de livraison et pas de téléportation de gâteau.</p>
+    <p>Les commandes doivent être retirées à la date et à l’heure confirmées.</p>
+    <p>Tu ne peux pas venir ? Préviens-nous au moins 48 heures à l’avance pour qu’on adapte notre planning (on ne claque pas des doigts pour faire apparaître un gâteau).</p>
+    <h2>Les retraits manqués ou annulations de dernière minute (moins de 48h) peuvent entraîner :</h2>
+    <ul><li>Aucun remboursement (évidemment)</li><li>Des restrictions sur les prochaines commandes (on risque de te ghoster)</li><li>Ton gâteau mangé par notre équipe par dépit (je rigole… à moitié)</li></ul>
+  </>}
+  <p><a href={href(lang, '/order-cake')}>{t('cta.order')} &rarr;</a></p>
+</Policy>

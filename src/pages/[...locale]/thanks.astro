@@ -1,0 +1,20 @@
+---
+// Landing page for form posts without JavaScript. With JS the form shows its own success state.
+import Base from '../../layouts/Base.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const c = {
+  en: { title: 'Thank you | Naked Cakes', h1: 'Got it. Thank you!', p: 'Your request reached us. We reply by email, so keep an eye on your inbox (and the spam folder, just in case).', back: 'Back to the home page' },
+  nl: { title: 'Bedankt | Naked Cakes', h1: 'Ontvangen. Bedankt!', p: 'Je aanvraag is bij ons. We antwoorden per mail, dus hou je inbox in de gaten (en je spammap, voor de zekerheid).', back: 'Terug naar de startpagina' },
+  fr: { title: 'Merci | Naked Cakes', h1: 'Bien reçu. Merci !', p: 'Ta demande nous est bien parvenue. On répond par e-mail, alors surveille ta boîte (et les spams, au cas où).', back: 'Retour à l’accueil' },
+}[lang];
+---
+<Base lang={lang} title={c.title} description={c.p} noindex>
+  <section class="section grid-paper"><div class="wrap-narrow card success">
+    <p class="hand" aria-hidden="true">yay!</p><h1 style="font-size:var(--step-4)">{c.h1}</h1><p class="lead" style="margin:var(--space-4) auto">{c.p}</p>
+    <p class="preview-note">{t('form.preview')}</p>
+    <div class="btn-row" style="justify-content:center;margin-top:var(--space-5)"><a class="btn" href={href(lang, '/')}>{c.back}</a><a class="btn btn-ghost" href={href(lang, '/menu')}>{t('cta.menu')}</a></div>
+  </div></section>
+</Base>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://naked-cakes.pages.dev/sitemap-index.xml

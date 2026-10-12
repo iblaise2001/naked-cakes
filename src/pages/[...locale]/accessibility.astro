@@ -1,0 +1,46 @@
+---
+import Policy from '../../components/Policy.astro';
+import { localePaths, useT, type Lang } from '../../i18n/ui.ts';
+import { business } from '../../data/business.ts';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const c = {
+  en: {
+    title: 'Accessibility statement | Naked Cakes Vilvoorde', desc: 'How we built the Naked Cakes website to work for everyone: WCAG 2.2 AA as the floor, keyboard and screen reader friendly, reduced motion respected. Tell us if something gets in your way.',
+    h1: 'Accessibility statement',
+    blocks: [
+      ['Our goal', 'Everyone should be able to read the menu, find us and order a cake, whatever device, browser or assistive technology they use. We aim for WCAG 2.2 level AA, as required by the European Accessibility Act.'],
+      ['What we did', 'Real text instead of menu images. Visible labels and plain-language error messages on every form, with an error summary that links to each field. Full keyboard use with a clearly visible focus ring. Colour pairs checked for contrast, and pink never used for small text on white. Allergen and spice information shown as text, never by colour alone. Animations switch off when your device asks for reduced motion. Menu, address and every form also work with JavaScript turned off.'],
+      ['How we tested', 'Automated checks with axe-core on every page and language, keyboard-only walkthroughs of the menu and the cake order flow, checks at screen widths from 360 to 2560 pixels and at 200% zoom, and with reduced motion switched on.'],
+      ['Known limitations', 'The Dutch and French texts are still being reviewed by native speakers. The optional Google Maps embed is third-party content we do not control; the address, directions links and opening hours are always available as plain text. The building itself: we will add details about step-free access here once confirmed.'],
+      ['Something not working?', `Tell us, we want to fix it. Email ${business.email} or call ${business.phoneDisplay}.`],
+    ],
+  },
+  nl: {
+    title: 'Toegankelijkheidsverklaring | Naked Cakes Vilvoorde', desc: 'Hoe we de website van Naked Cakes bouwden zodat ze voor iedereen werkt: WCAG 2.2 AA als minimum, toetsenbord- en schermlezervriendelijk, minder beweging gerespecteerd.',
+    h1: 'Toegankelijkheidsverklaring',
+    blocks: [
+      ['Ons doel', 'Iedereen moet het menu kunnen lezen, ons kunnen vinden en een taart kunnen bestellen, met welk toestel, welke browser of welke hulptechnologie ook. We mikken op WCAG 2.2 niveau AA, zoals de Europese toegankelijkheidsrichtlijn vraagt.'],
+      ['Wat we deden', 'Echte tekst in plaats van menu-afbeeldingen. Zichtbare labels en duidelijke foutmeldingen op elk formulier, met een overzicht dat naar elk veld linkt. Volledig bruikbaar met het toetsenbord en een duidelijke focusrand. Kleurcombinaties gecontroleerd op contrast. Allergenen en pikantheid als tekst, nooit alleen met kleur. Animaties stoppen als je toestel om minder beweging vraagt. Menu, adres en alle formulieren werken ook zonder JavaScript.'],
+      ['Hoe we testten', 'Automatische controles met axe-core op elke pagina en in elke taal, testen met enkel het toetsenbord door het menu en de taartbestelling, controles op schermbreedtes van 360 tot 2560 pixels en op 200% zoom, en met minder beweging aan.'],
+      ['Bekende beperkingen', 'De Nederlandse en Franse teksten worden nog nagelezen door moedertaalsprekers. De optionele Google Maps-kaart is externe inhoud; adres, routelinks en openingsuren staan altijd als tekst op de site. Over het gebouw zelf (drempelvrije toegang) vullen we hier info aan zodra die bevestigd is.'],
+      ['Werkt er iets niet?', `Laat het ons weten, we lossen het graag op. Mail ${business.email} of bel ${business.phoneDisplay}.`],
+    ],
+  },
+  fr: {
+    title: 'Déclaration d’accessibilité | Naked Cakes Vilvoorde', desc: 'Comment on a construit le site de Naked Cakes pour qu’il fonctionne pour tous : WCAG 2.2 AA au minimum, clavier et lecteurs d’écran, réduction des animations respectée.',
+    h1: 'Déclaration d’accessibilité',
+    blocks: [
+      ['Notre objectif', 'Tout le monde doit pouvoir lire le menu, nous trouver et commander un gâteau, quel que soit l’appareil, le navigateur ou la technologie d’assistance. On vise le niveau AA des WCAG 2.2, comme le demande l’Acte européen sur l’accessibilité.'],
+      ['Ce qu’on a fait', 'Du vrai texte au lieu d’images de menu. Des libellés visibles et des messages d’erreur clairs sur chaque formulaire, avec un récapitulatif qui renvoie à chaque champ. Utilisation complète au clavier avec un contour de focus bien visible. Contrastes des couleurs vérifiés. Allergènes et piquant indiqués en texte, jamais par la couleur seule. Les animations s’arrêtent si ton appareil demande moins de mouvement. Le menu, l’adresse et tous les formulaires fonctionnent aussi sans JavaScript.'],
+      ['Comment on a testé', 'Contrôles automatiques avec axe-core sur chaque page et chaque langue, parcours au clavier seul du menu et de la commande de gâteau, vérifications de 360 à 2560 pixels de large et à 200 % de zoom, et avec la réduction des animations activée.'],
+      ['Limites connues', 'Les textes néerlandais et français sont encore relus par des locuteurs natifs. La carte Google Maps optionnelle est un contenu tiers ; l’adresse, les liens d’itinéraire et les horaires sont toujours disponibles en texte. Pour le bâtiment (accès sans marche), on ajoutera les infos ici une fois confirmées.'],
+      ['Quelque chose ne marche pas ?', `Dis-le-nous, on veut corriger ça. Écris à ${business.email} ou appelle le ${business.phoneDisplay}.`],
+    ],
+  },
+}[lang];
+---
+<Policy lang={lang} path="/accessibility" crumb={t('policy.a11y')} updated="2026-10-12" title={c.title} description={c.desc} h1={c.h1}>
+  {c.blocks.map(([h, p]) => <><h2>{h}</h2><p>{p}</p></>)}
+</Policy>

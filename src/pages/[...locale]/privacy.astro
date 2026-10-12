@@ -1,0 +1,88 @@
+---
+import Policy from '../../components/Policy.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import { business } from '../../data/business.ts';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const c = {
+  en: {
+    title: 'Privacy policy: what we do with your data | Naked Cakes', desc: 'How Naked Cakes in Vilvoorde handles the data from cake orders, catering requests, messages and the Sweet Bite Club. No tracking cookies, no ads, no selling data. Ever.',
+    h1: 'Privacy policy', draft: 'Draft for client review. The legal entity, company number (KBO) and the email providers are still to be confirmed before this site goes live.',
+    sections: [
+      ['Who we are', `Naked Cakes, ${business.street}, ${business.postalCode} ${business.city}, Belgium. Email ${business.email}. We are responsible for the personal data you send us through this website.`],
+      ['The short version', 'We only collect what we need to answer you, make your cake or send you the newsletter you asked for. We don’t use tracking cookies, advertising pixels or analytics that follow you around. We never sell your data.'],
+    ],
+    tableTitle: 'What we collect and why',
+    rows: [
+      ['Cake order', 'Name, email, phone, cake choices, pickup date, notes', 'To prepare and confirm your order (steps before a contract)'],
+      ['Catering request', 'Name, email, phone (optional), event details', 'To answer your request and make an offer (steps before a contract)'],
+      ['Contact form', 'Name, email, message', 'To reply to you (legitimate interest)'],
+      ['Sweet Bite Club', 'First name, email, birthday day and month (optional), language, the moment you signed up', 'To send the newsletter you asked for (your consent, which you can withdraw any time)'],
+    ],
+    th: ['Form', 'Data', 'Why'],
+    more: [
+      ['Who else sees it', 'Our website host (Cloudflare) processes form submissions to deliver them to us. Emails are sent through a transactional email provider and the newsletter through a mailing list provider; both will be named here once chosen. They process data only on our instructions, inside the EU or with EU-approved safeguards.'],
+      ['How long we keep it', 'Requests and messages are kept as long as needed to handle them and for our bookkeeping obligations. Newsletter data is kept until you unsubscribe. Exact retention periods will be confirmed here by Naked Cakes.'],
+      ['Cookies and storage', 'This site sets no cookies. If you start a cake order, your draft is kept in your own browser (session storage) until you close the tab, so you don’t lose it. It never leaves your device unless you send the form. The map loads Google Maps only when you click on it; Google’s privacy policy then applies.'],
+      ['Your rights', 'You can ask to see, correct or delete your data, object to its use, or withdraw your consent for the newsletter at any time. Every newsletter has a one-click unsubscribe. Email us and we handle it within one month. You can also complain to the Belgian Data Protection Authority (dataprotectionauthority.be).'],
+    ],
+  },
+  nl: {
+    title: 'Privacybeleid: wat we met je gegevens doen | Naked Cakes', desc: 'Hoe Naked Cakes in Vilvoorde omgaat met gegevens uit taartbestellingen, cateringaanvragen, berichten en de Sweet Bite Club. Geen trackingcookies, geen advertenties, nooit verkopen.',
+    h1: 'Privacybeleid', draft: 'Ontwerp ter controle door de klant. De juridische entiteit, het ondernemingsnummer (KBO) en de e-mailproviders moeten nog bevestigd worden voor deze site live gaat.',
+    sections: [
+      ['Wie we zijn', `Naked Cakes, ${business.street}, ${business.postalCode} ${business.city}, België. E-mail ${business.email}. Wij zijn verantwoordelijk voor de persoonsgegevens die je ons via deze website stuurt.`],
+      ['De korte versie', 'We verzamelen alleen wat we nodig hebben om je te antwoorden, je taart te maken of je de nieuwsbrief te sturen waarom je vroeg. Geen trackingcookies, geen advertentiepixels, geen analytics die je volgen. We verkopen je gegevens nooit.'],
+    ],
+    tableTitle: 'Wat we verzamelen en waarom',
+    rows: [
+      ['Taartbestelling', 'Naam, e-mail, telefoon, taartkeuzes, afhaaldatum, opmerkingen', 'Om je bestelling voor te bereiden en te bevestigen (precontractuele stappen)'],
+      ['Cateringaanvraag', 'Naam, e-mail, telefoon (optioneel), details van het event', 'Om je aanvraag te beantwoorden en een voorstel te doen (precontractuele stappen)'],
+      ['Contactformulier', 'Naam, e-mail, bericht', 'Om je te antwoorden (gerechtvaardigd belang)'],
+      ['Sweet Bite Club', 'Voornaam, e-mail, verjaardag dag en maand (optioneel), taal, moment van inschrijving', 'Om de nieuwsbrief te sturen waarom je vroeg (je toestemming, die je altijd kan intrekken)'],
+    ],
+    th: ['Formulier', 'Gegevens', 'Waarom'],
+    more: [
+      ['Wie het nog ziet', 'Onze websitehost (Cloudflare) verwerkt formulieren om ze bij ons te krijgen. Mails gaan via een provider voor transactionele e-mail en de nieuwsbrief via een mailinglijstprovider; beide worden hier vermeld zodra ze gekozen zijn. Ze verwerken gegevens enkel op onze instructie, in de EU of met door de EU erkende waarborgen.'],
+      ['Hoe lang we het bewaren', 'Aanvragen en berichten bewaren we zolang nodig om ze af te handelen en voor onze boekhoudkundige verplichtingen. Nieuwsbriefgegevens tot je je uitschrijft. De exacte bewaartermijnen worden hier nog bevestigd door Naked Cakes.'],
+      ['Cookies en opslag', 'Deze site plaatst geen cookies. Begin je aan een taartbestelling, dan blijft je ontwerp in je eigen browser (session storage) tot je het tabblad sluit. Het verlaat je toestel niet tenzij je het formulier verstuurt. De kaart laadt Google Maps pas als je erop klikt; dan geldt het privacybeleid van Google.'],
+      ['Je rechten', 'Je kan je gegevens inkijken, laten verbeteren of wissen, bezwaar maken tegen het gebruik, of je toestemming voor de nieuwsbrief altijd intrekken. Elke nieuwsbrief heeft een uitschrijflink. Mail ons en we regelen het binnen een maand. Je kan ook klacht indienen bij de Gegevensbeschermingsautoriteit (gegevensbeschermingsautoriteit.be).'],
+    ],
+  },
+  fr: {
+    title: 'Politique de confidentialité | Naked Cakes Vilvoorde', desc: 'Comment Naked Cakes à Vilvoorde traite les données des commandes de gâteaux, demandes traiteur, messages et du Sweet Bite Club. Pas de cookies de suivi, pas de pubs, jamais de revente.',
+    h1: 'Politique de confidentialité', draft: 'Brouillon à valider par le client. L’entité juridique, le numéro d’entreprise (BCE) et les prestataires e-mail doivent encore être confirmés avant la mise en ligne.',
+    sections: [
+      ['Qui sommes-nous', `Naked Cakes, ${business.street}, ${business.postalCode} ${business.city}, Belgique. E-mail ${business.email}. Nous sommes responsables des données personnelles que tu nous envoies via ce site.`],
+      ['La version courte', 'On collecte uniquement ce qu’il faut pour te répondre, faire ton gâteau ou t’envoyer la newsletter demandée. Pas de cookies de suivi, pas de pixels publicitaires, pas d’analytics qui te suivent. On ne vend jamais tes données.'],
+    ],
+    tableTitle: 'Ce qu’on collecte et pourquoi',
+    rows: [
+      ['Commande de gâteau', 'Nom, e-mail, téléphone, choix du gâteau, date de retrait, remarques', 'Pour préparer et confirmer ta commande (mesures précontractuelles)'],
+      ['Demande traiteur', 'Nom, e-mail, téléphone (facultatif), détails de l’événement', 'Pour répondre à ta demande et faire une offre (mesures précontractuelles)'],
+      ['Formulaire de contact', 'Nom, e-mail, message', 'Pour te répondre (intérêt légitime)'],
+      ['Sweet Bite Club', 'Prénom, e-mail, anniversaire jour et mois (facultatif), langue, moment de l’inscription', 'Pour t’envoyer la newsletter demandée (ton consentement, retirable à tout moment)'],
+    ],
+    th: ['Formulaire', 'Données', 'Pourquoi'],
+    more: [
+      ['Qui d’autre y a accès', 'Notre hébergeur (Cloudflare) traite les formulaires pour nous les transmettre. Les e-mails passent par un prestataire d’e-mails transactionnels et la newsletter par un prestataire de listes de diffusion ; ils seront nommés ici une fois choisis. Ils traitent les données uniquement sur nos instructions, dans l’UE ou avec des garanties reconnues par l’UE.'],
+      ['Combien de temps on garde', 'Les demandes et messages sont conservés le temps nécessaire pour les traiter et pour nos obligations comptables. Les données de la newsletter jusqu’à ta désinscription. Les durées exactes seront confirmées ici par Naked Cakes.'],
+      ['Cookies et stockage', 'Ce site ne dépose aucun cookie. Si tu commences une commande de gâteau, ton brouillon reste dans ton navigateur (session storage) jusqu’à la fermeture de l’onglet. Il ne quitte ton appareil que si tu envoies le formulaire. La carte charge Google Maps uniquement quand tu cliques ; la politique de Google s’applique alors.'],
+      ['Tes droits', 'Tu peux demander à voir, corriger ou supprimer tes données, t’opposer à leur usage, ou retirer ton consentement à la newsletter à tout moment. Chaque newsletter a un lien de désinscription. Écris-nous et on s’en occupe dans le mois. Tu peux aussi porter plainte auprès de l’Autorité de protection des données (autoriteprotectiondonnees.be).'],
+    ],
+  },
+}[lang];
+---
+<Policy lang={lang} path="/privacy" crumb={t('policy.privacy')} updated="2026-10-12" draftNote={c.draft} title={c.title} description={c.desc} h1={c.h1}>
+  {c.sections.map(([h, p]) => <><h2>{h}</h2><p>{p}</p></>)}
+  <h2>{c.tableTitle}</h2>
+  <div style="overflow-x:auto">
+    <table class="price-table" style="min-width:520px">
+      <thead><tr>{c.th.map((h) => <th scope="col">{h}</th>)}</tr></thead>
+      <tbody>{c.rows.map(([a, b, d]) => <tr><th scope="row">{a}</th><td style="text-align:left;font-weight:400;font-size:inherit;color:inherit">{b}</td><td style="text-align:left;font-weight:400;font-size:inherit;color:inherit">{d}</td></tr>)}</tbody>
+    </table>
+  </div>
+  {c.more.map(([h, p]) => <><h2>{h}</h2><p>{p}</p></>)}
+  <p><a href={`mailto:${business.email}`}>{business.email}</a> &middot; <a href={href(lang, '/accessibility')}>{t('policy.a11y')}</a></p>
+</Policy>

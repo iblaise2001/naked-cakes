@@ -1,0 +1,9 @@
+# Legacy Wix URLs (nakedcakes.be) to their new homes. Tested by tests/e2e/redirects.spec.ts.
+/book-us                  /catering          301
+/contact-location         /visit             301
+/dutch-shipping-policy    /pickup-delivery   301
+/dutch-refund-policy      /refunds           301
+/accessibility-statement  /accessibility     301
+/home                     /                  301
+/about-us                 /about             301
+/index.html               /                  301

@@ -1,0 +1,135 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import sig from '../../assets/brand/signature.json';
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+
+const c = {
+  en: {
+    title: 'About Jessie and Naked Cakes, Vilvoorde | Naked Cakes',
+    desc: 'Meet Jessie, the founder of Naked Cakes: loud laugh, big glasses, soft heart, zero chill. How a love of American red velvet became a comfort food café near Brussels.',
+    h1: 'Welcome to Naked Cakes', sub: 'More than just dessert. More than just comfort food. This is a vibe.',
+    serve: 'We don’t just serve cake. We serve comfort.',
+    hi: 'Hi! I’m Jessie: loud laugh, big glasses, soft heart, zero chill.',
+    rebellion: ['I didn’t build a dream café.', 'I built a rebellion.'],
+    against: ['For people who care about the taste as much as the photos.', 'Against perfection that tastes like cardboard.', 'Against anyone who ever said “maybe tone it down a bit.”'],
+    trends: 'This isn’t about trends. It’s about real food, real moments, and leaving with more than what you came for. This is for the ones who need a place that feels like a break from trying so hard.',
+    bake: 'Yes, I bake. I grill. I pour matcha and pink lemonade. But really? I create spaces where people can laugh too loud, feel too much, and eat food that’s actually worth it.',
+    end: 'So yeah. That’s it! Welcome to Naked Cakes.',
+    sign: 'Come for the cake. Stay for the comfort.',
+    originTitle: ['It didn’t start with passion.', 'It started with frustration.'],
+    origin: [
+      'A deep, soul-crushing frustration. Every bakery, every café, every event: the same desserts, the same things on the menu, almost everywhere. Maybe good, maybe not, but always predictable AF.',
+      'Sure, things have evolved (for sure, for sure, for sure), but I still couldn’t find the flavours I craved. Where was the red velvet cake that made me go “Mmmhhh” with every bite?',
+      'After tasting mind-blowing cakes, cookies, and cinnamon rolls on U.S. road trips and realising Belgium had none of it, I had two choices: keep complaining or start baking. So I did. The seed of Naked Cakes was born.',
+      'No over-the-top decorations. No sad café food. No lifeless sponge or soulless coffee. Just bold, unapologetic flavours: cakes, cookies, comfort food, and drinks that make you feel like the main character in your own rom-com.',
+    ],
+    alt1: 'Jessie looking surprised behind a towering stack of cookies with a pink matcha on top',
+    alt2: 'Jessie in an orange cap and checked trousers walking past a grey wall with a boombox',
+    cta: 'Come taste the rebellion', ctaSub: 'Or order the cake that started it all.',
+  },
+  nl: {
+    title: 'Over Jessie en Naked Cakes, Vilvoorde | Naked Cakes',
+    desc: 'Maak kennis met Jessie, oprichter van Naked Cakes: luide lach, grote bril, zacht hart, zero chill. Hoe liefde voor Amerikaanse red velvet een comfort food café bij Brussel werd.',
+    h1: 'Welkom bij Naked Cakes', sub: 'Meer dan dessert. Meer dan comfort food. Dit is een vibe.',
+    serve: 'We serveren niet gewoon taart. We serveren comfort.',
+    hi: 'Hoi! Ik ben Jessie: luide lach, grote bril, zacht hart, zero chill.',
+    rebellion: ['Ik heb geen droomcafé gebouwd.', 'Ik heb een rebellie gebouwd.'],
+    against: ['Voor mensen die evenveel om de smaak geven als om de foto’s.', 'Tegen perfectie die naar karton smaakt.', 'Tegen iedereen die ooit zei “doe misschien wat rustiger”.'],
+    trends: 'Dit gaat niet over trends. Het gaat over echt eten, echte momenten en buitengaan met meer dan waarvoor je kwam. Dit is voor wie een plek nodig heeft die voelt als een pauze van altijd zo hard je best doen.',
+    bake: 'Ja, ik bak. Ik grill. Ik schenk matcha en pink lemonade. Maar eigenlijk? Ik maak plekken waar mensen te luid mogen lachen, te veel mogen voelen en eten dat het echt waard is.',
+    end: 'Dus ja. Dat is het! Welkom bij Naked Cakes.',
+    sign: 'Kom voor de taart. Blijf voor de comfort.',
+    originTitle: ['Het begon niet met passie.', 'Het begon met frustratie.'],
+    origin: [
+      'Een diepe, zielvernietigende frustratie. Elke bakkerij, elk café, elk event: dezelfde desserts, dezelfde dingen op de kaart, bijna overal. Misschien lekker, misschien niet, maar altijd voorspelbaar AF.',
+      'Natuurlijk is er veel veranderd (zeker, zeker, zeker), maar ik vond nog altijd niet de smaken waar ik naar verlangde. Waar was de red velvet taart die me bij elke hap “Mmmhhh” liet zeggen?',
+      'Na waanzinnige taarten, cookies en cinnamon rolls tijdens roadtrips in de VS, en het besef dat België dat allemaal niet had, had ik twee keuzes: blijven klagen of beginnen bakken. Dus deed ik dat. Het zaadje van Naked Cakes was geplant.',
+      'Geen overdreven decoratie. Geen triest caféeten. Geen levenloos biscuit of zielloze koffie. Gewoon bold, onbeschaamde smaken: taarten, cookies, comfort food en drankjes waardoor je je de hoofdrol voelt spelen in je eigen romcom.',
+    ],
+    alt1: 'Jessie kijkt verrast achter een torenhoge stapel cookies met een pink matcha erbovenop',
+    alt2: 'Jessie met oranje pet en geruite broek wandelt met een boombox langs een grijze muur',
+    cta: 'Kom de rebellie proeven', ctaSub: 'Of bestel de taart waarmee het allemaal begon.',
+  },
+  fr: {
+    title: 'À propos de Jessie et Naked Cakes, Vilvoorde | Naked Cakes',
+    desc: 'Rencontre Jessie, fondatrice de Naked Cakes : gros rire, grandes lunettes, cœur tendre, zéro chill. Comment l’amour du red velvet américain est devenu un café près de Bruxelles.',
+    h1: 'Bienvenue chez Naked Cakes', sub: 'Plus qu’un dessert. Plus que du comfort food. C’est une vibe.',
+    serve: 'On ne sert pas juste du gâteau. On sert du réconfort.',
+    hi: 'Salut ! Moi c’est Jessie : gros rire, grandes lunettes, cœur tendre, zéro chill.',
+    rebellion: ['Je n’ai pas construit un café de rêve.', 'J’ai construit une rébellion.'],
+    against: ['Pour ceux qui tiennent autant au goût qu’aux photos.', 'Contre la perfection qui a un goût de carton.', 'Contre tous ceux qui ont un jour dit « calme-toi un peu ».'],
+    trends: 'Ce n’est pas une question de tendances. C’est une question de vraie nourriture, de vrais moments, et de repartir avec plus que ce que tu étais venu chercher. C’est pour ceux qui ont besoin d’un endroit qui ressemble à une pause.',
+    bake: 'Oui, je fais des gâteaux. Je grille. Je sers du matcha et de la pink lemonade. Mais au fond ? Je crée des endroits où on peut rire trop fort, ressentir trop, et manger quelque chose qui en vaut vraiment la peine.',
+    end: 'Voilà. C’est tout ! Bienvenue chez Naked Cakes.',
+    sign: 'Viens pour le gâteau. Reste pour le réconfort.',
+    originTitle: ['Ça n’a pas commencé par la passion.', 'Ça a commencé par la frustration.'],
+    origin: [
+      'Une frustration profonde, à en pleurer. Chaque boulangerie, chaque café, chaque événement : les mêmes desserts, la même carte, presque partout. Peut-être bon, peut-être pas, mais toujours ultra prévisible.',
+      'Bien sûr, les choses ont évolué (si, si, si), mais je ne trouvais toujours pas les saveurs dont j’avais envie. Où était le red velvet cake qui me fait dire « Mmmhhh » à chaque bouchée ?',
+      'Après avoir goûté des gâteaux, cookies et cinnamon rolls incroyables lors de road trips aux États-Unis, et réalisé que la Belgique n’avait rien de tout ça, j’avais deux choix : continuer à râler ou me mettre à la pâtisserie. Alors je l’ai fait. La graine de Naked Cakes était plantée.',
+      'Pas de déco exagérée. Pas de nourriture de café triste. Pas de génoise sans vie ni de café sans âme. Juste des saveurs audacieuses et assumées : gâteaux, cookies, comfort food et boissons qui te donnent le premier rôle de ta propre comédie romantique.',
+    ],
+    alt1: 'Jessie l’air surpris derrière une énorme pile de cookies surmontée d’un pink matcha',
+    alt2: 'Jessie en casquette orange et pantalon à carreaux marchant avec un boombox le long d’un mur gris',
+    cta: 'Viens goûter la rébellion', ctaSub: 'Ou commande le gâteau qui a tout commencé.',
+  },
+}[lang];
+---
+<Base lang={lang} title={c.title} description={c.desc} ogImage="about" breadcrumb={[{ name: t('nav.about'), path: '/about' }]}>
+  <section class="hero velvet" aria-labelledby="about-title">
+    <div class="wrap split">
+      <div class="stack">
+        <h1 id="about-title" class="title-xl" style="color:var(--white)">{c.h1}</h1>
+        <p class="lead">{c.sub}</p>
+        <p class="hand" style="font-size:2.2rem;color:var(--pink-soft)">{c.serve}</p>
+      </div>
+      <div class="photo tilt-r" style="aspect-ratio:2/3;max-width:420px;justify-self:center;box-shadow:12px 12px 0 var(--pink)">
+        <Photo name="jessie-surprised" alt={c.alt1} sizes="(min-width: 900px) 420px, 88vw" priority widths={[360, 420, 640, 840]} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section grid-paper" aria-labelledby="rebel-title">
+    <div class="wrap-narrow stack">
+      <p class="eyebrow">{c.hi}</p>
+      <h2 id="rebel-title" style="font-size:var(--step-5)">{c.rebellion[0]} <span style="color:var(--pink-ink)">{c.rebellion[1]}</span></h2>
+      <ul class="not-list reveal-stagger" style="margin-top:var(--space-6)">
+        {c.against.map((a) => <li style="grid-template-columns:1fr"><span style="font-weight:700;color:var(--navy);font-size:var(--step-1)">{a}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="origin-title">
+    <div class="wrap split">
+      <div class="stack reveal">
+        <h2 id="origin-title" style="font-size:var(--step-4)">{c.originTitle[0]}<br /><span style="color:var(--pink-ink)">{c.originTitle[1]}</span></h2>
+        {c.origin.map((p) => <p>{p}</p>)}
+      </div>
+      <div class="photo tilt-l reveal parallax" style="aspect-ratio:2/3;max-width:420px;justify-self:center">
+        <Photo name="jessie-boombox" alt={c.alt2} sizes="(min-width: 900px) 420px, 88vw" widths={[360, 420, 640, 840]} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section velvet" aria-labelledby="end-title">
+    <div class="wrap-narrow stack" style="text-align:center">
+      <p class="lead" style="margin-inline:auto">{c.trends}</p>
+      <p class="lead" style="margin-inline:auto">{c.bake}</p>
+      <h2 id="end-title" style="font-size:var(--step-4);margin-top:var(--space-6)">{c.end}</h2>
+      <p class="hand" style="font-size:2.4rem;color:var(--pink-soft)">{c.sign}</p>
+      <svg class="signature" style="margin:var(--space-4) auto 0;width:220px" viewBox={`0 0 ${sig.w} ${sig.h}`} role="img" aria-label="Jessie"><path fill="currentColor" d={sig.d} /></svg>
+    </div>
+  </section>
+
+  <section class="section-tight grid-hot" aria-labelledby="cta-title">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:var(--space-5);align-items:center;justify-content:space-between">
+      <div class="stack"><h2 id="cta-title" style="font-size:var(--step-3)">{c.cta}</h2><p style="font-weight:700">{c.ctaSub}</p></div>
+      <div class="btn-row"><a class="btn btn-navy" href={href(lang, '/visit')}>{t('nav.visit')}</a><a class="btn btn-ghost" href={href(lang, '/order-cake')}>{t('cta.order')}</a></div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,42 @@
+---
+import Policy from '../../components/Policy.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import { business } from '../../data/business.ts';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const note = { en: '', nl: 'Vertaald uit het Engelse origineel. Bij twijfel geldt de Engelse versie.', fr: 'Traduit de l’original anglais. En cas de doute, la version anglaise prévaut.' }[lang];
+---
+<Policy lang={lang} path="/refunds" crumb={t('policy.refunds')} updated="2026-10-12" draftNote={note || undefined}
+  title={{ en: 'Refund policy: the no-takebacks clause | Naked Cakes', nl: 'Terugbetalingsbeleid: geen terugnames | Naked Cakes', fr: 'Politique de remboursement | Naked Cakes Vilvoorde' }[lang]}
+  description={{ en: 'Our treats are fresh and perishable, so we do not accept returns once an order is picked up. Something wrong? Contact us within 24 hours with a description and photos.', nl: 'Onze lekkernijen zijn vers en bederfelijk, dus na afhaling nemen we niets terug. Is er iets mis? Contacteer ons binnen 24 uur met een beschrijving en foto’s.', fr: 'Nos douceurs sont fraîches et périssables, donc pas de retour une fois la commande retirée. Un souci ? Contacte-nous dans les 24 heures avec une description et des photos.' }[lang]}
+  h1={{ en: 'Refund policy (aka the no-takebacks clause)', nl: 'Terugbetalingsbeleid (ook wel de geen-terugnames-clausule)', fr: 'Politique de remboursement (la clause pas-de-retour)' }[lang]}>
+  {lang === 'en' && <>
+    <p>All our treats are freshly made, perishable, and baked with a whole lotta love, which means we do not accept returns or offer refunds once an order has been picked up.</p>
+    <p>Think something’s gone wrong? Don’t panic, but don’t wait either.</p>
+    <h2>Contact us within 24 hours of pickup with:</h2>
+    <ul><li>A clear description of the issue</li><li>Photo evidence (no blurry drama please)</li></ul>
+    <h2>We’ll assess the situation (we’re fair but not fools), and at our discretion, may offer:</h2>
+    <ul><li>A replacement item</li><li>A store credit</li><li>Or if it’s all good on our side… no action</li></ul>
+    <p><strong>Claims made after 24 hours = no cake justice.</strong></p>
+  </>}
+  {lang === 'nl' && <>
+    <p>Al onze lekkernijen zijn vers gemaakt, bederfelijk en gebakken met heel veel liefde. Daarom nemen we niets terug en betalen we niets terug zodra een bestelling is afgehaald.</p>
+    <p>Denk je dat er iets misging? Geen paniek, maar wacht ook niet te lang.</p>
+    <h2>Contacteer ons binnen 24 uur na afhaling met:</h2>
+    <ul><li>Een duidelijke beschrijving van het probleem</li><li>Fotobewijs (geen wazig drama alsjeblieft)</li></ul>
+    <h2>We bekijken de situatie (we zijn eerlijk, maar niet naïef) en kunnen naar eigen inzicht aanbieden:</h2>
+    <ul><li>Een vervangend product</li><li>Een tegoed</li><li>Of als alles aan onze kant in orde is… geen actie</li></ul>
+    <p><strong>Klachten na 24 uur = geen taart-gerechtigheid.</strong></p>
+  </>}
+  {lang === 'fr' && <>
+    <p>Toutes nos douceurs sont faites maison, périssables et préparées avec énormément d’amour. On n’accepte donc ni retour ni remboursement une fois la commande retirée.</p>
+    <p>Tu penses qu’il y a eu un souci ? Pas de panique, mais n’attends pas non plus.</p>
+    <h2>Contacte-nous dans les 24 heures après le retrait avec :</h2>
+    <ul><li>Une description claire du problème</li><li>Des photos (pas de drame flou, merci)</li></ul>
+    <h2>On examine la situation (justes mais pas naïfs) et, à notre discrétion, on peut proposer :</h2>
+    <ul><li>Un produit de remplacement</li><li>Un avoir</li><li>Ou, si tout est en ordre de notre côté… rien</li></ul>
+    <p><strong>Réclamation après 24 heures = pas de justice pour le gâteau.</strong></p>
+  </>}
+  <p><a href={`mailto:${business.email}`}>{business.email}</a> &middot; <a href={business.phoneHref}>{business.phoneDisplay}</a> &middot; <a href={href(lang, '/visit')}>{t('nav.visit')}</a></p>
+</Policy>

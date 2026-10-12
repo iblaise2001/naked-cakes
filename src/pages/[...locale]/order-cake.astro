@@ -1,0 +1,338 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import FormShell from '../../components/FormShell.astro';
+import Field from '../../components/Field.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import { sizes, prices, maxDeco, type Style, type Size } from '../../data/cakes.ts';
+import { formatPrice } from '../../data/menu.ts';
+import { faqLd } from '../../lib/seo.ts';
+import { firstPickupDate } from '../../lib/dates.ts';
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const P = (n: number) => formatPrice(n, lang);
+
+const c = {
+  en: {
+    title: 'Order a red velvet cake in Vilvoorde | Naked Cakes',
+    heroAlt: 'Two-layer red velvet wedding cake with cream cheese frosting, decorated with peach roses',
+    desc: 'Order a red velvet celebration cake in Vilvoorde near Brussels. Pick Basic, Vintage or Fully Covered, round or heart, from €75. Real cream cheese frosting, pickup only.',
+    h1: ['Collections,', 'not sculptures.'],
+    quote: 'I customise my cake collections, but I do not make fully custom cakes.',
+    intro: 'Collections are pre-set cake styles where you can tweak a few things. Hyper-detailed, sculpted, fondant-covered cakes? Not my thing. I focus on flavour, quality and aesthetic minimalism.',
+    rulesTitle: 'Read this first (it saves us both time)',
+    rules: [
+      ['All red velvet', 'Every cake is red velvet. Two layers of joy, real cream cheese frosting. No buttercream-shizzle here.'],
+      ['We don’t write on cakes', 'No messages, names or ages. Make it extra special with ribbons and cherries instead.'],
+      ['Pickup only', 'No delivery, no cake teleportation. Can’t make it? Tell us at least 48 hours ahead.'],
+      ['Same vibe, different personality', 'Your cake won’t be an identical twin of the reference photo. It will be its own thing.'],
+    ],
+    stylesTitle: 'Pick your style',
+    styles: {
+      basic: { name: 'Basic', points: ['A more minimalistic design', 'No cream cheese frosting on the bottom', 'No extra vintage frosting details'], photo: 'rosette-cake', alt: 'Basic style example: red velvet cake with piped rosettes on top only' },
+      vintage: { name: 'Vintage', points: ['A more detailed design', 'Extra vintage frosting details on the whole cake', 'Cake still visible'], photo: 'heart-cake-cherries', alt: 'Vintage style example: pink heart cake with ruffled piping and cherries' },
+      covered: { name: 'Fully Covered', points: ['A detailed design', 'Extra vintage frosting on the sides', 'Covered all the way round'], photo: 'white-heart-cake', alt: 'Fully Covered style example: white heart cake piped all over' },
+    } as Record<Style, { name: string; points: string[]; photo: string; alt: string }>,
+    sizeNames: { medium: 'Medium', large: 'Large', xl: 'XL' } as Record<Size, string>,
+    people: 'people', rect: 'rectangle',
+    portions: 'Portions depend on how the cake is cut. A Medium for 8 means bigger slices, for 12 means small event-style slices.',
+    example: 'Example from our collection',
+    formTitle: 'Build your cake request',
+    steps: ['Your cake', 'Pickup', 'Your details'],
+    size: 'Size', shape: 'Shape', style: 'Style', frosting: 'Frosting', deco: 'Extra decorations', decoHint: '€1 per piece.',
+    shapes: { round: 'Round', heart: 'Heart', rectangle: 'Rectangle' }, shapeHint: 'XL only comes as a rectangle.',
+    frostings: { white: ['All white', 'The classic'], surprise: ['Surprise me', 'We choose the colours, after checking who it’s for'] },
+    ribbons: 'Ribbons', cherries: 'Cherries',
+    date: 'Pickup date', dateHint: 'Pickup on Wednesday, Friday, Saturday or Sunday, at least 2 days from today.',
+    time: 'Preferred pickup time', timeHint: 'During opening hours. We confirm the exact slot by email.',
+    notes: 'Allergies or anything we should know', notesHint: 'We don’t write on cakes, so this isn’t for a cake message.',
+    name: 'Your name', email: 'Email', phone: 'Phone',
+    submit: 'Send my cake request',
+    summary: 'Your cake', sum: { size: 'Size', shape: 'Shape', style: 'Style', frosting: 'Frosting', deco: 'Decorations', date: 'Pickup' },
+    estimate: 'Estimate', fine: 'Final price and pickup slot are confirmed by email. Nothing is paid online.', none: 'None',
+    success: 'Cake request received!',
+    successNext: ['Jessie checks the date and your choices.', 'You get an email confirming the final price and pickup time.', 'You pick up your cake at Jean-Baptiste Nowélei 57 and make someone very happy.'],
+    faqTitle: 'Cake questions',
+    faq: [
+      ['Can I choose another flavour?', 'All our cakes are red velvet. Yup, all of them. Other flavours might show up later, but red velvet will always be number one.'],
+      ['Can you write a name or age on the cake?', 'No, we don’t write messages, names or ages on our cakes. Ribbons and cherries make it special instead (€1 per piece).'],
+      ['Do you deliver?', 'No, all cakes are pickup only at Jean-Baptiste Nowélei 57 in Vilvoorde, on the confirmed date and time.'],
+      ['What if I need to cancel or change my pickup?', 'Let us know at least 48 hours in advance. Missed pickups or cancellations within 48 hours are not refunded.'],
+      ['How many people does a cake serve?', 'Medium (18 cm) serves 8 to 12, Large (25 cm) 12 to 25, and XL (rectangle, 35 x 28 cm) 25 to 40. It depends on how you cut it.'],
+      ['Will my cake look exactly like the photo?', 'Same vibe, different personality. Every cake is made by hand, so it won’t be an identical twin of a reference photo.'],
+    ],
+  },
+  nl: {
+    title: 'Red velvet taart bestellen in Vilvoorde | Naked Cakes',
+    heroAlt: 'Red velvet huwelijkstaart met twee lagen en cream cheese frosting, versierd met perzikkleurige rozen',
+    desc: 'Bestel een red velvet feesttaart in Vilvoorde vlak bij Brussel. Kies Basic, Vintage of Fully Covered, rond of hart, vanaf €75. Echte cream cheese frosting, enkel afhalen.',
+    h1: ['Collecties,', 'geen sculpturen.'],
+    quote: 'Ik pas mijn taartcollecties aan, maar ik maak geen volledig custom taarten.',
+    intro: 'Collecties zijn vaste taartstijlen waarin je een paar dingen kiest. Hypergedetailleerde, gebeeldhouwde taarten in fondant? Niet mijn ding. Ik focus op smaak, kwaliteit en esthetisch minimalisme.',
+    rulesTitle: 'Lees dit eerst (het spaart ons allebei tijd)',
+    rules: [
+      ['Altijd red velvet', 'Elke taart is red velvet. Twee lagen geluk, echte cream cheese frosting. Geen botercrème-gedoe.'],
+      ['We schrijven niet op taarten', 'Geen boodschappen, namen of leeftijden. Maak hem extra speciaal met strikjes en kersen.'],
+      ['Enkel afhalen', 'Geen levering, geen taart-teleportatie. Lukt het niet? Laat het minstens 48 uur op voorhand weten.'],
+      ['Zelfde vibe, eigen persoonlijkheid', 'Je taart wordt geen identieke tweeling van de voorbeeldfoto. Hij wordt zijn eigen ding.'],
+    ],
+    stylesTitle: 'Kies je stijl',
+    styles: {
+      basic: { name: 'Basic', points: ['Een meer minimalistisch design', 'Geen cream cheese frosting onderaan', 'Geen extra vintage frosting-details'], photo: 'rosette-cake', alt: 'Voorbeeld Basic: red velvet taart met rozetten enkel bovenop' },
+      vintage: { name: 'Vintage', points: ['Een meer gedetailleerd design', 'Extra vintage frosting-details op de hele taart', 'De taart blijft zichtbaar'], photo: 'heart-cake-cherries', alt: 'Voorbeeld Vintage: roze harttaart met ruches en kersen' },
+      covered: { name: 'Fully Covered', points: ['Een gedetailleerd design', 'Extra vintage frosting op de zijkanten', 'Helemaal rondom bedekt'], photo: 'white-heart-cake', alt: 'Voorbeeld Fully Covered: witte harttaart helemaal bespoten' },
+    } as Record<Style, { name: string; points: string[]; photo: string; alt: string }>,
+    sizeNames: { medium: 'Medium', large: 'Large', xl: 'XL' } as Record<Size, string>,
+    people: 'personen', rect: 'rechthoek',
+    portions: 'Porties hangen af van hoe je de taart snijdt. Een Medium voor 8 betekent grotere stukken, voor 12 kleine event-stukjes.',
+    example: 'Voorbeeld uit onze collectie',
+    formTitle: 'Stel je taartaanvraag samen',
+    steps: ['Je taart', 'Afhalen', 'Je gegevens'],
+    size: 'Grootte', shape: 'Vorm', style: 'Stijl', frosting: 'Frosting', deco: 'Extra decoratie', decoHint: '€1 per stuk.',
+    shapes: { round: 'Rond', heart: 'Hart', rectangle: 'Rechthoek' }, shapeHint: 'XL bestaat alleen als rechthoek.',
+    frostings: { white: ['Helemaal wit', 'De klassieker'], surprise: ['Verras me', 'Wij kiezen de kleuren, nadat we vragen voor wie hij is'] },
+    ribbons: 'Strikjes', cherries: 'Kersen',
+    date: 'Afhaaldatum', dateHint: 'Afhalen op woensdag, vrijdag, zaterdag of zondag, minstens 2 dagen vanaf vandaag.',
+    time: 'Gewenst afhaaluur', timeHint: 'Tijdens de openingsuren. We bevestigen het exacte moment per mail.',
+    notes: 'Allergieën of iets wat we moeten weten', notesHint: 'We schrijven niet op taarten, dus dit is geen veld voor een boodschap.',
+    name: 'Je naam', email: 'E-mail', phone: 'Telefoon',
+    submit: 'Verstuur mijn taartaanvraag',
+    summary: 'Jouw taart', sum: { size: 'Grootte', shape: 'Vorm', style: 'Stijl', frosting: 'Frosting', deco: 'Decoratie', date: 'Afhalen' },
+    estimate: 'Schatting', fine: 'De eindprijs en het afhaalmoment bevestigen we per mail. Er wordt niets online betaald.', none: 'Geen',
+    success: 'Taartaanvraag ontvangen!',
+    successNext: ['Jessie checkt de datum en je keuzes.', 'Je krijgt een mail met de eindprijs en het afhaaluur.', 'Je haalt je taart af aan de Jean-Baptiste Nowélei 57 en maakt iemand heel blij.'],
+    faqTitle: 'Taartvragen',
+    faq: [
+      ['Kan ik een andere smaak kiezen?', 'Al onze taarten zijn red velvet. Jep, allemaal. Misschien komen er later andere smaken bij, maar red velvet blijft altijd nummer één.'],
+      ['Kunnen jullie een naam of leeftijd op de taart schrijven?', 'Nee, we schrijven geen boodschappen, namen of leeftijden op onze taarten. Strikjes en kersen maken hem speciaal (€1 per stuk).'],
+      ['Leveren jullie?', 'Nee, alle taarten worden afgehaald aan de Jean-Baptiste Nowélei 57 in Vilvoorde, op de bevestigde datum en het bevestigde uur.'],
+      ['Wat als ik moet annuleren of mijn afhaling wil verzetten?', 'Laat het minstens 48 uur op voorhand weten. Gemiste afhalingen of annulaties binnen 48 uur worden niet terugbetaald.'],
+      ['Voor hoeveel personen is een taart?', 'Medium (18 cm) voor 8 tot 12, Large (25 cm) voor 12 tot 25 en XL (rechthoek, 35 x 28 cm) voor 25 tot 40. Het hangt af van hoe je snijdt.'],
+      ['Ziet mijn taart er exact uit zoals de foto?', 'Zelfde vibe, eigen persoonlijkheid. Elke taart is handwerk, dus hij wordt geen identieke tweeling van een voorbeeldfoto.'],
+    ],
+  },
+  fr: {
+    title: 'Commander un red velvet cake à Vilvoorde | Naked Cakes',
+    heroAlt: 'Gâteau de mariage red velvet à deux couches avec cream cheese frosting, décoré de roses pêche',
+    desc: 'Commande un gâteau red velvet de fête à Vilvoorde près de Bruxelles. Basic, Vintage ou Fully Covered, rond ou cœur, dès 75 €. Vrai cream cheese frosting, à retirer.',
+    h1: ['Des collections,', 'pas des sculptures.'],
+    quote: 'Je personnalise mes collections de gâteaux, mais je ne fais pas de gâteaux entièrement sur mesure.',
+    intro: 'Les collections, ce sont des styles de gâteaux définis où tu peux ajuster quelques détails. Des gâteaux ultra-détaillés, sculptés, en pâte à sucre ? Pas mon truc. Je mise sur le goût, la qualité et un minimalisme esthétique.',
+    rulesTitle: 'À lire d’abord (on gagne du temps tous les deux)',
+    rules: [
+      ['Tout en red velvet', 'Chaque gâteau est au red velvet. Deux couches de bonheur, vrai cream cheese frosting. Pas de crème au beurre ici.'],
+      ['On n’écrit pas sur les gâteaux', 'Pas de messages, de prénoms ni d’âges. Rends-le encore plus spécial avec des rubans et des cerises.'],
+      ['Uniquement à retirer', 'Pas de livraison, pas de téléportation de gâteau. Un empêchement ? Préviens-nous au moins 48 heures avant.'],
+      ['Même vibe, autre personnalité', 'Ton gâteau ne sera pas le jumeau identique de la photo de référence. Il aura sa propre personnalité.'],
+    ],
+    stylesTitle: 'Choisis ton style',
+    styles: {
+      basic: { name: 'Basic', points: ['Un design plus minimaliste', 'Pas de cream cheese frosting en bas', 'Pas de détails vintage en plus'], photo: 'rosette-cake', alt: 'Exemple Basic : red velvet cake avec des rosaces sur le dessus uniquement' },
+      vintage: { name: 'Vintage', points: ['Un design plus détaillé', 'Détails vintage en frosting sur tout le gâteau', 'Le gâteau reste visible'], photo: 'heart-cake-cherries', alt: 'Exemple Vintage : gâteau cœur rose avec volants et cerises' },
+      covered: { name: 'Fully Covered', points: ['Un design détaillé', 'Frosting vintage en plus sur les côtés', 'Recouvert tout autour'], photo: 'white-heart-cake', alt: 'Exemple Fully Covered : gâteau cœur blanc entièrement décoré' },
+    } as Record<Style, { name: string; points: string[]; photo: string; alt: string }>,
+    sizeNames: { medium: 'Medium', large: 'Large', xl: 'XL' } as Record<Size, string>,
+    people: 'personnes', rect: 'rectangle',
+    portions: 'Les portions dépendent de la découpe. Un Medium pour 8, ce sont de grosses parts, pour 12 de petites parts façon événement.',
+    example: 'Exemple de notre collection',
+    formTitle: 'Compose ta demande de gâteau',
+    steps: ['Ton gâteau', 'Retrait', 'Tes coordonnées'],
+    size: 'Taille', shape: 'Forme', style: 'Style', frosting: 'Frosting', deco: 'Décorations en plus', decoHint: '1 € pièce.',
+    shapes: { round: 'Rond', heart: 'Cœur', rectangle: 'Rectangle' }, shapeHint: 'Le XL existe uniquement en rectangle.',
+    frostings: { white: ['Tout blanc', 'Le classique'], surprise: ['Surprends-moi', 'On choisit les couleurs, après avoir demandé pour qui c’est'] },
+    ribbons: 'Rubans', cherries: 'Cerises',
+    date: 'Date de retrait', dateHint: 'Retrait le mercredi, vendredi, samedi ou dimanche, au moins 2 jours après aujourd’hui.',
+    time: 'Heure de retrait souhaitée', timeHint: 'Pendant les heures d’ouverture. On confirme le créneau exact par e-mail.',
+    notes: 'Allergies ou infos utiles', notesHint: 'On n’écrit pas sur les gâteaux, ce champ n’est donc pas pour un message.',
+    name: 'Ton nom', email: 'E-mail', phone: 'Téléphone',
+    submit: 'Envoyer ma demande',
+    summary: 'Ton gâteau', sum: { size: 'Taille', shape: 'Forme', style: 'Style', frosting: 'Frosting', deco: 'Décorations', date: 'Retrait' },
+    estimate: 'Estimation', fine: 'Le prix final et le créneau de retrait sont confirmés par e-mail. Rien n’est payé en ligne.', none: 'Aucune',
+    success: 'Demande de gâteau reçue !',
+    successNext: ['Jessie vérifie la date et tes choix.', 'Tu reçois un e-mail avec le prix final et l’heure de retrait.', 'Tu viens chercher ton gâteau au Jean-Baptiste Nowélei 57 et tu rends quelqu’un très heureux.'],
+    faqTitle: 'Questions gâteaux',
+    faq: [
+      ['Je peux choisir un autre parfum ?', 'Tous nos gâteaux sont au red velvet. Oui, tous. D’autres parfums arriveront peut-être, mais le red velvet restera toujours numéro un.'],
+      ['Vous pouvez écrire un prénom ou un âge ?', 'Non, on n’écrit pas de messages, prénoms ou âges sur nos gâteaux. Les rubans et les cerises le rendent spécial (1 € pièce).'],
+      ['Vous livrez ?', 'Non, tous les gâteaux se retirent au Jean-Baptiste Nowélei 57 à Vilvoorde, à la date et l’heure confirmées.'],
+      ['Et si je dois annuler ou déplacer mon retrait ?', 'Préviens-nous au moins 48 heures à l’avance. Les retraits manqués ou annulations à moins de 48 heures ne sont pas remboursés.'],
+      ['Un gâteau, c’est pour combien de personnes ?', 'Medium (18 cm) pour 8 à 12, Large (25 cm) pour 12 à 25 et XL (rectangle, 35 x 28 cm) pour 25 à 40. Tout dépend de la découpe.'],
+      ['Mon gâteau sera exactement comme la photo ?', 'Même vibe, autre personnalité. Chaque gâteau est fait main, il ne sera donc pas le jumeau identique d’une photo.'],
+    ],
+  },
+}[lang];
+
+const styleKeys: Style[] = ['basic', 'vintage', 'covered'];
+const sizeKeys: Size[] = ['medium', 'large', 'xl'];
+const sizeLine = (s: Size) => `${s === 'xl' ? `${c.rect}, ` : ''}${sizes[s].cm}, ${sizes[s].people} ${c.people}`;
+const labels = { ribbons: c.ribbons.toLowerCase(), cherries: c.cherries.toLowerCase(), none: c.none };
+---
+<Base lang={lang} title={c.title} description={c.desc} ogImage="order-cake" jsonLd={[faqLd(c.faq.map(([q, a]) => ({ q, a })))]} breadcrumb={[{ name: t('nav.order'), path: '/order-cake' }]}>
+  <section class="hero grid-hot" aria-labelledby="order-title">
+    <div class="wrap split">
+      <div class="stack">
+        <h1 id="order-title" class="title-xl" style="color:var(--navy)">{c.h1[0]}<br /><span style="color:var(--white);-webkit-text-stroke:2px var(--navy);paint-order:stroke fill">{c.h1[1]}</span></h1>
+        <blockquote class="card card-pad" style="margin:0;rotate:-1deg">
+          <p class="hand" style="font-size:1.9rem;color:var(--navy)">&ldquo;{c.quote}&rdquo;</p>
+          <p style="margin-top:var(--space-3)">{c.intro}</p>
+        </blockquote>
+        <a class="btn btn-navy" href="#build"><Icon name="cake" />{c.formTitle}</a>
+      </div>
+      <div class="photo tilt-r" style="aspect-ratio:4/5;max-width:480px;justify-self:center">
+        <Photo name="wedding-cake-flowers" alt={c.heroAlt} sizes="(min-width: 900px) 480px, 90vw" priority widths={[360, 480, 720, 960]} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight paper" aria-labelledby="rules-title">
+    <div class="wrap">
+      <h2 id="rules-title" style="font-size:var(--step-3);margin-bottom:var(--space-6)">{c.rulesTitle}</h2>
+      <ul class="rules reveal-stagger" style="list-style:none;padding:0;margin:0">
+        {c.rules.map(([h, p]) => <li class="rule"><span class="big">{h}</span>{p}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="styles-title">
+    <div class="wrap">
+      <div class="section-head"><h2 id="styles-title">{c.stylesTitle}</h2><p class="muted" style="max-width:40ch">{c.portions}</p></div>
+      <div class="styles">
+        {styleKeys.map((k) => (
+          <article class="card style-card reveal" aria-labelledby={`style-${k}`}>
+            <figure style="margin:0">
+              <div class="photo"><Photo name={c.styles[k].photo} alt={c.styles[k].alt} sizes="(min-width: 1000px) 420px, 92vw" widths={[360, 560, 840]} /></div>
+              <figcaption class="sr-only">{c.example}</figcaption>
+            </figure>
+            <div class="card-pad">
+              <span class="ribbon" id={`style-${k}`} style="font-size:var(--step-1)">{c.styles[k].name}</span>
+              <ul class="check-list" style="margin-top:var(--space-4)">{c.styles[k].points.map((p) => <li>{p}</li>)}</ul>
+              <table class="price-table">
+                <caption class="sr-only">{c.styles[k].name}: {c.sizeNames.medium}, {c.sizeNames.large}, {c.sizeNames.xl}</caption>
+                <tbody>
+                  {sizeKeys.map((s) => <tr><th scope="row"><strong>{c.sizeNames[s]}</strong> <span class="muted">({sizeLine(s)})</span></th><td>{P(prices[k][s])}</td></tr>)}
+                </tbody>
+              </table>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="build" class="section grid-paper" aria-labelledby="build-title" data-cake-order data-labels={JSON.stringify(labels)}>
+    <div class="wrap">
+      <h2 id="build-title" style="font-size:var(--step-4);margin-bottom:var(--space-6)">{c.formTitle}</h2>
+      <div class="order-layout">
+        <div class="card card-pad">
+          <ol class="progress" data-progress aria-label={c.formTitle}>
+            {c.steps.map((s, i) => <li data-state={i === 0 ? 'current' : 'todo'}><span>{t('form.step')} {i + 1}: {s}</span></li>)}
+          </ol>
+          <FormShell form="cake" lang={lang} submit={c.submit} successTitle={c.success} successNext={c.successNext}>
+            <fieldset class="step" data-fields="size,shape,style,frosting,ribbons,cherries">
+              <legend class="step-title" tabindex="-1">1. {c.steps[0]}</legend>
+              <div class="form-grid">
+                <fieldset class="field" data-field="size" aria-describedby="cake-size-err">
+                  <legend>{c.size}</legend>
+                  <div class="tiles">
+                    {sizeKeys.map((s) => (
+                      <label class="tile"><input type="radio" name="size" value={s} data-label={c.sizeNames[s]} required /><span class="face"><strong>{c.sizeNames[s]}</strong><small>{sizeLine(s)}</small></span></label>
+                    ))}
+                  </div>
+                  <p class="error" id="cake-size-err"></p>
+                </fieldset>
+                <fieldset class="field" data-field="shape" aria-describedby="cake-shape-hint cake-shape-err">
+                  <legend>{c.shape}</legend>
+                  <span class="hint" id="cake-shape-hint">{c.shapeHint}</span>
+                  <div class="tiles">
+                    {(['round', 'heart', 'rectangle'] as const).map((s) => (
+                      <label class="tile"><input type="radio" name="shape" value={s} data-label={c.shapes[s]} required /><span class="face"><strong>{c.shapes[s]}</strong>{s === 'rectangle' && <small>XL</small>}</span></label>
+                    ))}
+                  </div>
+                  <p class="error" id="cake-shape-err"></p>
+                </fieldset>
+                <fieldset class="field" data-field="style" aria-describedby="cake-style-err">
+                  <legend>{c.style}</legend>
+                  <div class="tiles">
+                    {styleKeys.map((s) => (
+                      <label class="tile"><input type="radio" name="style" value={s} data-label={c.styles[s].name} required /><span class="face"><strong>{c.styles[s].name}</strong><small>{c.styles[s].points[0]}</small></span></label>
+                    ))}
+                  </div>
+                  <p class="error" id="cake-style-err"></p>
+                </fieldset>
+                <fieldset class="field" data-field="frosting" aria-describedby="cake-frosting-err">
+                  <legend>{c.frosting}</legend>
+                  <div class="tiles">
+                    {(['white', 'surprise'] as const).map((f) => (
+                      <label class="tile"><input type="radio" name="frosting" value={f} data-label={c.frostings[f][0]} required /><span class="face"><strong>{c.frostings[f][0]}</strong><small>{c.frostings[f][1]}</small></span></label>
+                    ))}
+                  </div>
+                  <p class="error" id="cake-frosting-err"></p>
+                </fieldset>
+                <fieldset class="field" aria-describedby="cake-deco-hint">
+                  <legend>{c.deco}</legend>
+                  <span class="hint" id="cake-deco-hint">{c.decoHint}</span>
+                  <div class="form-grid two" style="gap:var(--space-4)">
+                    {(['ribbons', 'cherries'] as const).map((d) => (
+                      <div class="field" data-field={d}>
+                        <label for={`cake-${d}`}>{c[d]}</label>
+                        <div class="stepper">
+                          <button type="button" data-dec={d} aria-label={`- ${c[d]}`}>&minus;</button>
+                          <input id={`cake-${d}`} name={d} type="number" inputmode="numeric" min="0" max={maxDeco} value="0" aria-describedby={`cake-${d}-err`} />
+                          <button type="button" data-inc={d} aria-label={`+ ${c[d]}`}>+</button>
+                        </div>
+                        <p class="error" id={`cake-${d}-err`}></p>
+                      </div>
+                    ))}
+                  </div>
+                </fieldset>
+              </div>
+              <div class="step-nav"><span></span><button class="btn" type="button" data-next>{t('form.next')} <Icon name="arrow" /></button></div>
+            </fieldset>
+
+            <fieldset class="step" data-fields="pickupDate,pickupTime,notes">
+              <legend class="step-title" tabindex="-1">2. {c.steps[1]}</legend>
+              <div class="form-grid two">
+                <Field form="cake" name="pickupDate" type="date" label={c.date} hint={c.dateHint} required min={firstPickupDate()} />
+                <Field form="cake" name="pickupTime" type="time" label={c.time} hint={c.timeHint} optionalLabel={t('form.optional')} />
+                <Field form="cake" name="notes" textarea label={c.notes} hint={c.notesHint} optionalLabel={t('form.optional')} class="full" maxlength={800} />
+              </div>
+              <div class="step-nav"><button class="btn btn-ghost" type="button" data-back>{t('form.back')}</button><button class="btn" type="button" data-next>{t('form.next')} <Icon name="arrow" /></button></div>
+            </fieldset>
+
+            <fieldset class="step" data-fields="name,email,phone">
+              <legend class="step-title" tabindex="-1">3. {c.steps[2]}</legend>
+              <div class="form-grid two">
+                <Field form="cake" name="name" label={c.name} required autocomplete="name" class="full" maxlength={120} />
+                <Field form="cake" name="email" type="email" label={c.email} required autocomplete="email" inputmode="email" maxlength={200} />
+                <Field form="cake" name="phone" type="tel" label={c.phone} required autocomplete="tel" inputmode="tel" />
+              </div>
+              <div class="step-nav"><button class="btn btn-ghost" type="button" data-back>{t('form.back')}</button><span></span></div>
+            </fieldset>
+          </FormShell>
+        </div>
+
+        <aside class="card card-pad summary" aria-labelledby="sum-title">
+          <h2 id="sum-title">{c.summary}</h2>
+          <dl>
+            {Object.entries(c.sum).map(([k, v]) => <><dt>{v}</dt><dd data-sum={k}>-</dd></>)}
+          </dl>
+          <div class="total"><span>{c.estimate}</span><strong data-sum="total" aria-live="polite">-</strong></div>
+          <p class="fine muted">{c.fine}</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="wrap-narrow">
+      <h2 id="faq-title" style="font-size:var(--step-4);margin-bottom:var(--space-6)">{c.faqTitle}</h2>
+      <div class="faq">
+        {c.faq.map(([q, a]) => <details><summary>{q}</summary><div class="a"><p>{a}</p></div></details>)}
+      </div>
+      <p style="margin-top:var(--space-6)"><a class="link-arrow" href={href(lang, '/pickup-delivery')}>{t('policy.pickup')} &rarr;</a> &middot; <a class="link-arrow" href={href(lang, '/refunds')}>{t('policy.refunds')} &rarr;</a></p>
+    </div>
+  </section>
+</Base>

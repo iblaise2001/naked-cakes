@@ -1,0 +1,148 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import { sections, makeItYours, menuNotes, formatPrice, type Item, type Tag } from '../../data/menu.ts';
+import { menuLd } from '../../lib/seo.ts';
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const P = (n: number) => formatPrice(n, lang);
+const site = Astro.site!.toString().replace(/\/$/, '');
+
+const c = {
+  en: {
+    title: 'Menu: brunch, NYC cookies & pink matcha | Naked Cakes Vilvoorde',
+    desc: 'The full Naked Cakes menu with prices: cookie pancakes, NYC bacon egg & cheese, red velvet slices, big NYC cookies, pink iced matcha and coffee in Vilvoorde.',
+    h1: 'The menu', sub: 'Comfort food worth leaving the house for.',
+    filter: 'Filter', all: 'Everything', jump: 'Jump to', fav: '★ Favourites',
+    tags: { bestseller: 'Best seller', signature: 'House signature', spicy: 'Spicy', extraspicy: 'Extra spicy', seasonal: 'Seasonal', kids: 'Kids', favourite: 'Favourite' } as Record<Tag, string>,
+    empty: 'Nothing matches that filter. Try another one.', msgAll: 'Showing the full menu', msgShown: 'items shown',
+    cakeCta: 'Want a whole cake?', cakeCtaBody: 'Red velvet, two layers, real cream cheese frosting. From €75.',
+    sliceAlt: 'Slice of red velvet cake with thick cream cheese frosting', matchaAlt: 'Pink iced matcha with a green cold foam', cookiesAlt: 'Two chocolate chip NYC cookies on checkered paper',
+  },
+  nl: {
+    title: 'Menu: brunch, NYC cookies & pink matcha | Naked Cakes Vilvoorde',
+    desc: 'Het volledige menu van Naked Cakes met prijzen: cookie pancakes, NYC bacon egg & cheese, red velvet, grote NYC cookies, pink iced matcha en koffie in Vilvoorde.',
+    h1: 'Het menu', sub: 'Comfort food om je huis voor uit te komen.',
+    filter: 'Filter', all: 'Alles', jump: 'Ga naar', fav: '★ Favorieten',
+    tags: { bestseller: 'Best seller', signature: 'Huisspecialiteit', spicy: 'Pikant', extraspicy: 'Extra pikant', seasonal: 'Seizoen', kids: 'Kids', favourite: 'Favoriet' } as Record<Tag, string>,
+    empty: 'Niets gevonden met die filter. Probeer een andere.', msgAll: 'Het volledige menu wordt getoond', msgShown: 'items getoond',
+    cakeCta: 'Liever een hele taart?', cakeCtaBody: 'Red velvet, twee lagen, echte cream cheese frosting. Vanaf €75.',
+    sliceAlt: 'Punt red velvet taart met dikke cream cheese frosting', matchaAlt: 'Pink iced matcha met groene cold foam', cookiesAlt: 'Twee chocolate chip NYC cookies op geruit papier',
+  },
+  fr: {
+    title: 'Menu : brunch, cookies NYC & pink matcha | Naked Cakes Vilvoorde',
+    desc: 'Le menu complet de Naked Cakes avec les prix : cookie pancakes, NYC bacon egg & cheese, red velvet, gros cookies NYC, pink iced matcha et café à Vilvoorde.',
+    h1: 'Le menu', sub: 'Du comfort food qui vaut le déplacement.',
+    filter: 'Filtrer', all: 'Tout', jump: 'Aller à', fav: '★ Favoris',
+    tags: { bestseller: 'Best seller', signature: 'Signature maison', spicy: 'Épicé', extraspicy: 'Très épicé', seasonal: 'De saison', kids: 'Kids', favourite: 'Favori' } as Record<Tag, string>,
+    empty: 'Rien ne correspond à ce filtre. Essaie un autre.', msgAll: 'Tout le menu est affiché', msgShown: 'articles affichés',
+    cakeCta: 'Envie d’un gâteau entier ?', cakeCtaBody: 'Red velvet, deux couches, vrai cream cheese frosting. Dès 75 €.',
+    sliceAlt: 'Part de red velvet cake avec un épais cream cheese frosting', matchaAlt: 'Pink iced matcha avec cold foam vert', cookiesAlt: 'Deux cookies NYC aux pépites de chocolat sur papier à damier',
+  },
+}[lang];
+
+const filters: (Tag | 'all')[] = ['all', 'bestseller', 'signature', 'spicy', 'seasonal', 'kids'];
+const tagsOf = (i: Item) => {
+  const tags = new Set(i.tags || []);
+  if (tags.has('extraspicy')) tags.add('spicy');
+  tags.delete('favourite');
+  return [...tags].join(' ') || 'none';
+};
+const tagClass: Record<string, string> = { bestseller: 'tag-best', signature: 'tag-sig', spicy: 'tag-spicy', extraspicy: 'tag-spicy', seasonal: 'tag-season', kids: 'tag-kids' };
+const fav = sections[0];
+const rest = sections.slice(1);
+---
+<Base lang={lang} title={c.title} description={c.desc} ogImage="menu" jsonLd={[menuLd(site, lang)]} breadcrumb={[{ name: t('nav.menu'), path: '/menu' }]}>
+  <section class="hero grid-paper" style="padding-bottom:var(--space-7)" aria-labelledby="menu-title">
+    <div class="wrap split" style="align-items:end">
+      <div class="stack">
+        <h1 id="menu-title" class="title-xl">{c.h1}</h1>
+        <p class="hand" style="font-size:2.2rem">{c.sub}</p>
+        <p style="font-weight:700;color:var(--navy)">{menuNotes.dairyMeat[lang]} {menuNotes.allergens[lang]}</p>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3)" aria-hidden="true">
+        <div class="photo tilt-l" style="aspect-ratio:3/4"><Photo name="red-velvet-slice" alt="" sizes="(min-width: 900px) 200px, 30vw" widths={[200, 360, 560]} priority /></div>
+        <div class="photo tilt-r" style="aspect-ratio:3/4;translate:0 1.5rem"><Photo name="pink-matcha-sitting" alt="" sizes="(min-width: 900px) 200px, 30vw" widths={[200, 360, 560]} /></div>
+        <div class="photo tilt-l" style="aspect-ratio:3/4"><Photo name="cookies-choc-chip" alt="" sizes="(min-width: 900px) 200px, 30vw" widths={[200, 360, 560]} /></div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="menu-nav" aria-label={c.jump}>
+    <div class="chips">
+      {sections.map((s) => <a class="chip" href={`#${s.id}`}>{s.id === 'favourites' ? c.fav : s.title[lang]}</a>)}
+    </div>
+    <div class="chips" data-menu-filters hidden role="group" aria-label={c.filter} data-msg={JSON.stringify({ all: c.msgAll, shown: c.msgShown })} style="padding-top:0">
+      {filters.map((f) => <button class="chip" type="button" data-filter={f} aria-pressed={f === 'all' ? 'true' : 'false'}>{f === 'all' ? c.all : c.tags[f]}</button>)}
+    </div>
+    <p class="sr-only" aria-live="polite" data-menu-status></p>
+  </nav>
+
+  <div class="section-tight">
+    <div class="wrap">
+      <p class="menu-empty card" data-menu-empty hidden>{c.empty}</p>
+      <div class="menu-board">
+        <section id={fav.id} class="menu-section favourites grid-paper card span-2" data-menu-section aria-labelledby={`h-${fav.id}`}>
+          <h2 id={`h-${fav.id}`} style="color:var(--pink-ink)"><Icon name="star" /> {fav.title[lang]}</h2>
+          <ul class="menu-items" style="display:grid;gap:0 var(--space-7);grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))">
+            {fav.items.map((i) => (
+              <li class="menu-item" data-tags={tagsOf(i)}>
+                <div class="mi-head"><h3>{i.name[lang]}</h3><span class="leader" aria-hidden="true"></span><span class="price">{P(i.price!)}</span></div>
+                {i.desc && <p class="mi-desc">{i.desc[lang]}</p>}
+                {i.addons && <ul class="mi-addons">{i.addons.map((a) => <li>{a.label[lang]} {a.price ? P(a.price) : ''}</li>)}</ul>}
+                {i.tags?.some((x) => tagClass[x]) && <div class="mi-tags">{i.tags.filter((x) => tagClass[x]).map((x) => <span class={`tag ${tagClass[x]}`}>{c.tags[x]}</span>)}</div>}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {rest.map((s) => (
+          <section id={s.id} class="menu-section" data-menu-section aria-labelledby={`h-${s.id}`}>
+            <h2 id={`h-${s.id}`}>{s.title[lang]}</h2>
+            {s.note && <p class="note">{s.note[lang]}</p>}
+            <ul class="menu-items">
+              {s.items.map((i) => (
+                <li class="menu-item" data-tags={tagsOf(i)}>
+                  <div class="mi-head">
+                    <h3>{i.name[lang]}</h3><span class="leader" aria-hidden="true"></span>
+                    {i.price != null && <span class="price">{P(i.price)}</span>}
+                  </div>
+                  {i.desc && <p class="mi-desc">{i.desc[lang]}</p>}
+                  {i.variants && <ul class="mi-variants">{i.variants.map((v) => <li>{v.label[lang]} {P(v.price)}</li>)}</ul>}
+                  {i.addons && <ul class="mi-addons">{i.addons.map((a) => <li>{a.label[lang]} {a.price ? P(a.price) : ''}</li>)}</ul>}
+                  {i.tags?.some((x) => tagClass[x]) && <div class="mi-tags">{i.tags.filter((x) => tagClass[x]).map((x) => <span class={`tag ${tagClass[x]}`}>{x === 'spicy' ? '🌶 ' : x === 'extraspicy' ? '🌶🌶 ' : ''}{c.tags[x]}</span>)}</div>}
+                </li>
+              ))}
+            </ul>
+            {s.id === 'not-coffee' && (
+              <div class="extras grid-paper card" style="margin-top:var(--space-6)">
+                <h2>{makeItYours.title[lang]}</h2>
+                <dl>
+                  {makeItYours.rows.map((r) => (
+                    <>
+                      <dt>+ {r.label[lang]}</dt>
+                      <dd>{r.detail?.[lang]}</dd>
+                      <dd style="font-weight:800;color:var(--navy);text-align:right">{r.price ? `+${P(r.price)}` : ''}</dd>
+                    </>
+                  ))}
+                </dl>
+              </div>
+            )}
+          </section>
+        ))}
+      </div>
+
+      <aside class="card card-pad grid-hot" style="margin-top:var(--space-8);display:flex;flex-wrap:wrap;gap:var(--space-5);align-items:center;justify-content:space-between" aria-labelledby="cake-cta">
+        <div class="stack">
+          <h2 id="cake-cta" style="font-size:var(--step-3)">{c.cakeCta}</h2>
+          <p style="font-weight:700">{c.cakeCtaBody}</p>
+        </div>
+        <a class="btn btn-navy" href={href(lang, '/order-cake')}><Icon name="cake" />{t('cta.order')}</a>
+      </aside>
+    </div>
+  </div>
+</Base>

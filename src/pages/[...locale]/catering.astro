@@ -1,0 +1,172 @@
+---
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import FormShell from '../../components/FormShell.astro';
+import Field from '../../components/Field.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import { faqLd } from '../../lib/seo.ts';
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+
+const c = {
+  en: {
+    title: 'Coffee cart & dessert catering near Brussels | Naked Cakes',
+    desc: 'Book the Naked Cakes mobile cart for your event near Brussels: specialty coffee, pink matcha, house lemonade, red velvet cake and NYC cookies. We reply within 72 hours.',
+    h1: ['Book the cart.', 'Bring the vibe.'],
+    sub: 'Coffee. Matcha. House drinks. Desserts. Good vibes. We bring the experience to you.',
+    warn: 'This page is for catering only. Looking for a cake?', warnCta: 'Order a cake here',
+    expTitle: 'Not just catering. An experience.',
+    exp: 'We bring our mobile cart to your event and serve a curated selection of coffee, matcha, house drinks and desserts. Prefer something simpler? We also do catering without the cart. Perfect for brands, teams and celebrations that want something better than basic.',
+    bringTitle: 'What we can bring',
+    cart: ['Specialty coffee', 'Matcha (classic & pink)', 'Our signature Pink Matcha', 'House pink lemonade', 'House iced tea'],
+    dessertsNote: 'Desserts, with the cart or as catering only:', desserts: ['Red velvet cake', 'NYC-style cookies'],
+    forTitle: 'Perfect for', forList: ['Corporate events', 'Store openings', 'Brand launches', 'Weddings & private parties', 'Team moments & celebrations'],
+    photoAlt: 'Pink iced matcha held over a cobblestone street, smiley socks and white sneakers',
+    formTitle: 'Request your event', formIntro: 'Tell us your date, location and type of event. We come back to you within 72 hours.',
+    first: 'First name', last: 'Last name', email: 'Email', phone: 'Phone', date: 'Event date', type: 'Type of event', typeHint: 'Wedding, launch event, corporate gathering...',
+    location: 'Location, venue or city', guests: 'Number of guests', hours: 'Hours', hoursHint: 'Estimated length of the event, in hours.',
+    service: 'What do you need?', services: { cart: ['The cart', 'Coffee, matcha and drinks served on site (desserts optional)'], desserts: ['Desserts only', 'Red velvet cake and NYC cookies, no cart'] },
+    message: 'Anything else?', submit: 'Send my request',
+    success: 'Request received!', successNext: ['We read every request ourselves.', 'You hear back from us within 72 hours with availability and next steps.'],
+    faqTitle: 'Catering questions',
+    faq: [
+      ['How fast do you reply?', 'We come back to you within 72 hours.'],
+      ['Can I book desserts without the cart?', 'Yes. Desserts (red velvet cake and NYC-style cookies) are available with the cart or as catering only.'],
+      ['What drinks does the cart serve?', 'Specialty coffee, matcha (classic and pink), our signature Pink Matcha, house pink lemonade and house iced tea.'],
+      ['Is this where I order a birthday cake?', 'No, this page is for catering only. Cake orders go through the order a cake page.'],
+    ],
+  },
+  nl: {
+    title: 'Coffee cart & dessertcatering bij Brussel | Naked Cakes',
+    desc: 'Boek de mobiele cart van Naked Cakes voor je event bij Brussel: specialty coffee, pink matcha, huislimonade, red velvet taart en NYC cookies. Antwoord binnen 72 uur.',
+    h1: ['Boek de cart.', 'Breng de vibe.'],
+    sub: 'Koffie. Matcha. Huisdrankjes. Desserts. Good vibes. Wij brengen de ervaring naar jou.',
+    warn: 'Deze pagina is enkel voor catering. Op zoek naar een taart?', warnCta: 'Bestel hier een taart',
+    expTitle: 'Niet gewoon catering. Een ervaring.',
+    exp: 'We brengen onze mobiele cart naar je event en serveren een selectie koffie, matcha, huisdrankjes en desserts. Liever iets eenvoudigers? We doen ook catering zonder de cart. Perfect voor merken, teams en feestjes die beter willen dan basic.',
+    bringTitle: 'Wat we kunnen meebrengen',
+    cart: ['Specialty coffee', 'Matcha (klassiek & roze)', 'Onze signature Pink Matcha', 'Huisgemaakte pink lemonade', 'Huisgemaakte iced tea'],
+    dessertsNote: 'Desserts, met de cart of als catering alleen:', desserts: ['Red velvet taart', 'NYC-style cookies'],
+    forTitle: 'Perfect voor', forList: ['Bedrijfsevents', 'Winkelopeningen', 'Merklanceringen', 'Huwelijken & privéfeesten', 'Teammomenten & vieringen'],
+    photoAlt: 'Pink iced matcha boven een kasseistraat, smileysokken en witte sneakers',
+    formTitle: 'Vraag je event aan', formIntro: 'Vertel ons je datum, locatie en type event. We komen binnen 72 uur bij je terug.',
+    first: 'Voornaam', last: 'Achternaam', email: 'E-mail', phone: 'Telefoon', date: 'Datum van het event', type: 'Type event', typeHint: 'Huwelijk, lancering, bedrijfsevent...',
+    location: 'Locatie, zaal of stad', guests: 'Aantal gasten', hours: 'Uren', hoursHint: 'Geschatte duur van het event, in uren.',
+    service: 'Wat heb je nodig?', services: { cart: ['De cart', 'Koffie, matcha en drankjes ter plaatse (desserts optioneel)'], desserts: ['Enkel desserts', 'Red velvet taart en NYC cookies, zonder cart'] },
+    message: 'Nog iets?', submit: 'Verstuur mijn aanvraag',
+    success: 'Aanvraag ontvangen!', successNext: ['We lezen elke aanvraag zelf.', 'Binnen 72 uur hoor je van ons over de beschikbaarheid en de volgende stappen.'],
+    faqTitle: 'Vragen over catering',
+    faq: [
+      ['Hoe snel antwoorden jullie?', 'We komen binnen 72 uur bij je terug.'],
+      ['Kan ik desserts boeken zonder de cart?', 'Ja. Desserts (red velvet taart en NYC-style cookies) zijn er met de cart of als catering alleen.'],
+      ['Welke drankjes serveert de cart?', 'Specialty coffee, matcha (klassiek en roze), onze signature Pink Matcha, huisgemaakte pink lemonade en iced tea.'],
+      ['Bestel ik hier een verjaardagstaart?', 'Nee, deze pagina is enkel voor catering. Taarten bestel je via de pagina taart bestellen.'],
+    ],
+  },
+  fr: {
+    title: 'Coffee cart & traiteur desserts près de Bruxelles | Naked Cakes',
+    desc: 'Réserve le cart mobile Naked Cakes pour ton événement près de Bruxelles : café de spécialité, pink matcha, limonade maison, red velvet et cookies NYC. Réponse sous 72 h.',
+    h1: ['Réserve le cart.', 'Amène la vibe.'],
+    sub: 'Café. Matcha. Boissons maison. Desserts. Good vibes. On t’apporte l’expérience.',
+    warn: 'Cette page est uniquement pour le traiteur. Tu cherches un gâteau ?', warnCta: 'Commande un gâteau ici',
+    expTitle: 'Pas juste un traiteur. Une expérience.',
+    exp: 'On amène notre cart mobile à ton événement et on sert une sélection de café, matcha, boissons maison et desserts. Tu préfères plus simple ? On fait aussi le traiteur sans le cart. Parfait pour les marques, les équipes et les fêtes qui veulent mieux que basique.',
+    bringTitle: 'Ce qu’on peut apporter',
+    cart: ['Café de spécialité', 'Matcha (classique & rose)', 'Notre Pink Matcha signature', 'Pink lemonade maison', 'Iced tea maison'],
+    dessertsNote: 'Desserts, avec le cart ou en traiteur seul :', desserts: ['Red velvet cake', 'Cookies style NYC'],
+    forTitle: 'Parfait pour', forList: ['Événements d’entreprise', 'Ouvertures de magasin', 'Lancements de marque', 'Mariages & fêtes privées', 'Moments d’équipe & célébrations'],
+    photoAlt: 'Pink iced matcha au-dessus d’une rue pavée, chaussettes smiley et baskets blanches',
+    formTitle: 'Demande ton événement', formIntro: 'Dis-nous ta date, le lieu et le type d’événement. On te répond sous 72 heures.',
+    first: 'Prénom', last: 'Nom', email: 'E-mail', phone: 'Téléphone', date: 'Date de l’événement', type: 'Type d’événement', typeHint: 'Mariage, lancement, événement d’entreprise...',
+    location: 'Lieu, salle ou ville', guests: 'Nombre d’invités', hours: 'Heures', hoursHint: 'Durée estimée de l’événement, en heures.',
+    service: 'De quoi as-tu besoin ?', services: { cart: ['Le cart', 'Café, matcha et boissons servis sur place (desserts en option)'], desserts: ['Desserts seulement', 'Red velvet cake et cookies NYC, sans cart'] },
+    message: 'Autre chose ?', submit: 'Envoyer ma demande',
+    success: 'Demande reçue !', successNext: ['On lit chaque demande nous-mêmes.', 'Tu as notre réponse sous 72 heures avec les disponibilités et la suite.'],
+    faqTitle: 'Questions traiteur',
+    faq: [
+      ['Vous répondez en combien de temps ?', 'On te répond sous 72 heures.'],
+      ['Je peux réserver des desserts sans le cart ?', 'Oui. Les desserts (red velvet cake et cookies style NYC) sont disponibles avec le cart ou en traiteur seul.'],
+      ['Quelles boissons sert le cart ?', 'Café de spécialité, matcha (classique et rose), notre Pink Matcha signature, pink lemonade maison et iced tea maison.'],
+      ['C’est ici que je commande un gâteau d’anniversaire ?', 'Non, cette page est uniquement pour le traiteur. Les gâteaux se commandent via la page commander un gâteau.'],
+    ],
+  },
+}[lang];
+---
+<Base lang={lang} title={c.title} description={c.desc} ogImage="catering" jsonLd={[faqLd(c.faq.map(([q, a]) => ({ q, a })))]} breadcrumb={[{ name: t('nav.catering'), path: '/catering' }]}>
+  <section class="hero velvet" aria-labelledby="cat-title">
+    <div class="wrap split">
+      <div class="stack">
+        <h1 id="cat-title" class="title-xl" style="color:var(--white)">{c.h1[0]}<br /><span style="color:var(--pink)">{c.h1[1]}</span></h1>
+        <p class="lead" style="color:var(--pink-soft)">{c.sub}</p>
+        <div class="btn-row"><a class="btn" href="#request">{c.formTitle}</a></div>
+        <p class="callout" style="background:transparent;border-color:var(--pink-soft);color:var(--pink-soft)">{c.warn} <a href={href(lang, '/order-cake')} style="font-weight:800">{c.warnCta} &rarr;</a></p>
+      </div>
+      <div class="photo tilt-r" style="aspect-ratio:7/8;max-width:480px;justify-self:center;box-shadow:12px 12px 0 var(--pink)">
+        <Photo name="pink-matcha-sitting" alt={c.photoAlt} sizes="(min-width: 900px) 480px, 90vw" priority widths={[360, 480, 720, 960]} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="exp-title">
+    <div class="wrap">
+      <div class="split" style="align-items:start">
+        <div class="stack reveal">
+          <h2 id="exp-title" style="font-size:var(--step-4)">{c.expTitle}</h2>
+          <p class="lead">{c.exp}</p>
+        </div>
+        <div class="card card-pad grid-paper reveal">
+          <h3 style="font:400 var(--step-2)/1 var(--font-display);text-transform:uppercase">{c.bringTitle}</h3>
+          <ul class="check-list" style="margin-top:var(--space-4)">{c.cart.map((i) => <li>{i}</li>)}</ul>
+          <p style="margin-top:var(--space-5);font-weight:700">{c.dessertsNote}</p>
+          <ul class="check-list">{c.desserts.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      </div>
+      <div style="margin-top:var(--space-8)">
+        <h2 style="font-size:var(--step-3);margin-bottom:var(--space-5)">{c.forTitle}</h2>
+        <ul class="chips-input reveal-stagger" style="list-style:none;padding:0;margin:0">{c.forList.map((i) => <li><span>{i}</span></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="request" class="section grid-paper" aria-labelledby="req-title">
+    <div class="wrap-narrow">
+      <div class="card card-pad">
+        <h2 id="req-title" style="font-size:var(--step-4)">{c.formTitle}</h2>
+        <p class="lead" style="margin:var(--space-3) 0 var(--space-6)">{c.formIntro}</p>
+        <FormShell form="catering" lang={lang} submit={c.submit} successTitle={c.success} successNext={c.successNext}>
+          <fieldset class="field" data-field="service" aria-describedby="catering-service-err">
+            <legend>{c.service}</legend>
+            <div class="tiles">
+              {(['cart', 'desserts'] as const).map((s) => (
+                <label class="tile"><input type="radio" name="service" value={s} required /><span class="face"><strong>{c.services[s][0]}</strong><small>{c.services[s][1]}</small></span></label>
+              ))}
+            </div>
+            <p class="error" id="catering-service-err"></p>
+          </fieldset>
+          <div class="form-grid two">
+            <Field form="catering" name="firstName" label={c.first} required autocomplete="given-name" maxlength={80} />
+            <Field form="catering" name="lastName" label={c.last} required autocomplete="family-name" maxlength={80} />
+            <Field form="catering" name="email" type="email" label={c.email} required autocomplete="email" inputmode="email" maxlength={200} />
+            <Field form="catering" name="phone" type="tel" label={c.phone} optionalLabel={t('form.optional')} autocomplete="tel" inputmode="tel" />
+            <Field form="catering" name="eventDate" type="date" label={c.date} required />
+            <Field form="catering" name="eventType" label={c.type} hint={c.typeHint} required maxlength={120} />
+            <Field form="catering" name="location" label={c.location} required class="full" maxlength={200} />
+            <Field form="catering" name="guests" type="number" label={c.guests} required inputmode="numeric" min={1} max={5000} />
+            <Field form="catering" name="hours" type="number" label={c.hours} hint={c.hoursHint} required inputmode="numeric" min={1} max={24} />
+            <Field form="catering" name="message" textarea label={c.message} optionalLabel={t('form.optional')} class="full" maxlength={1500} />
+          </div>
+        </FormShell>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="wrap-narrow">
+      <h2 id="faq-title" style="font-size:var(--step-4);margin-bottom:var(--space-6)">{c.faqTitle}</h2>
+      <div class="faq">{c.faq.map(([q, a]) => <details><summary>{q}</summary><div class="a"><p>{a}</p></div></details>)}</div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,22 @@
+---
+// Landing page for a form post without JavaScript that failed validation or delivery.
+import Base from '../../layouts/Base.astro';
+import { localePaths, useT, href, type Lang } from '../../i18n/ui.ts';
+import { business } from '../../data/business.ts';
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+const c = {
+  en: { title: 'Something was missing | Naked Cakes', h1: 'Almost! Something was missing.', p: 'A required field was empty or not quite right, so nothing was sent. Go back, check the fields marked as required, and try again. Or skip the form and reach us directly:', back: 'Use your browser’s back button to return to the form. What you typed is usually still there.' },
+  nl: { title: 'Er ontbrak iets | Naked Cakes', h1: 'Bijna! Er ontbrak iets.', p: 'Een verplicht veld was leeg of niet helemaal juist, dus er is niets verstuurd. Ga terug, kijk de verplichte velden na en probeer opnieuw. Of sla het formulier over en contacteer ons rechtstreeks:', back: 'Gebruik de terugknop van je browser om terug te gaan. Wat je typte staat er meestal nog.' },
+  fr: { title: 'Il manquait quelque chose | Naked Cakes', h1: 'Presque ! Il manquait quelque chose.', p: 'Un champ obligatoire était vide ou incorrect, donc rien n’a été envoyé. Reviens en arrière, vérifie les champs obligatoires et réessaie. Ou contacte-nous directement :', back: 'Utilise le bouton retour de ton navigateur pour revenir au formulaire. Ce que tu as tapé y est généralement encore.' },
+}[lang];
+---
+<Base lang={lang} title={c.title} description={c.p} noindex>
+  <section class="section grid-paper"><div class="wrap-narrow card card-pad stack">
+    <h1 style="font-size:var(--step-4)">{c.h1}</h1><p class="lead">{c.p}</p>
+    <p><a class="link-arrow" href={`mailto:${business.email}`}>{business.email}</a> &middot; <a class="link-arrow" href={business.phoneHref}>{business.phoneDisplay}</a></p>
+    <div class="btn-row"><a class="btn" href={href(lang, '/order-cake')}>{t('cta.order')}</a><a class="btn btn-ghost" href={href(lang, '/visit')}>{t('nav.visit')}</a></div>
+    <p class="muted">{c.back}</p>
+  </div></section>
+</Base>

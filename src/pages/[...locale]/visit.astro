@@ -1,0 +1,92 @@
+---
+import Base from '../../layouts/Base.astro';
+import VisitBlock from '../../components/VisitBlock.astro';
+import FormShell from '../../components/FormShell.astro';
+import Field from '../../components/Field.astro';
+import { localePaths, useT, type Lang } from '../../i18n/ui.ts';
+import { business } from '../../data/business.ts';
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+const t = useT(lang);
+
+const c = {
+  en: {
+    title: 'Visit us: brunch & coffee in Vilvoorde | Naked Cakes',
+    desc: 'Find Naked Cakes at Jean-Baptiste Nowélei 57, 1800 Vilvoorde near Brussels. Open Wednesday, Friday, Saturday and Sunday. Live opening status, directions and contact.',
+    h1: 'Say hello', sub: 'Want cake, cookies, coffee or comfort food? We’re listening.',
+    beforeTitle: 'Before you ask',
+    before: [['no', 'Nope: we don’t do custom orders (boundaries are sexy).'], ['no', 'Nope: you can’t pick your own cookie flavours.'], ['yes', 'Yes: you can DM us on Instagram, but this form is safer if you want an actual reply.']],
+    spot: 'Your sweets, coffee & comfort food spot',
+    formTitle: 'Send us a message', topic: 'What’s it about?', topics: { visit: 'A visit question', press: 'Press & collabs', other: 'Something else' },
+    first: 'First name', last: 'Last name', email: 'Email', message: 'Message', submit: 'Send message',
+    success: 'Message received!', successNext: ['We read every message ourselves.', 'You hear back by email. Cake orders and catering have their own forms, so they reach us faster.'],
+  },
+  nl: {
+    title: 'Bezoek ons: brunch & koffie in Vilvoorde | Naked Cakes',
+    desc: 'Vind Naked Cakes aan de Jean-Baptiste Nowélei 57, 1800 Vilvoorde vlak bij Brussel. Open op woensdag, vrijdag, zaterdag en zondag. Live openingsstatus, route en contact.',
+    h1: 'Zeg hallo', sub: 'Zin in taart, cookies, koffie of comfort food? We luisteren.',
+    beforeTitle: 'Voor je het vraagt',
+    before: [['no', 'Nope: we maken geen bestellingen op maat (grenzen zijn sexy).'], ['no', 'Nope: je kan je cookiesmaken niet zelf kiezen.'], ['yes', 'Ja: je kan ons een DM sturen op Instagram, maar via dit formulier krijg je zekerder een antwoord.']],
+    spot: 'Jouw plek voor zoetigheid, koffie & comfort food',
+    formTitle: 'Stuur ons een bericht', topic: 'Waarover gaat het?', topics: { visit: 'Vraag over een bezoek', press: 'Pers & samenwerkingen', other: 'Iets anders' },
+    first: 'Voornaam', last: 'Achternaam', email: 'E-mail', message: 'Bericht', submit: 'Verstuur bericht',
+    success: 'Bericht ontvangen!', successNext: ['We lezen elk bericht zelf.', 'Je krijgt antwoord per mail. Taartbestellingen en catering hebben hun eigen formulier, zo komen ze sneller bij ons.'],
+  },
+  fr: {
+    title: 'Nous trouver : brunch & café à Vilvoorde | Naked Cakes',
+    desc: 'Retrouve Naked Cakes au Jean-Baptiste Nowélei 57, 1800 Vilvoorde près de Bruxelles. Ouvert mercredi, vendredi, samedi et dimanche. Statut en direct, itinéraire et contact.',
+    h1: 'Dis bonjour', sub: 'Envie de gâteau, de cookies, de café ou de comfort food ? On t’écoute.',
+    beforeTitle: 'Avant que tu demandes',
+    before: [['no', 'Non : on ne fait pas de commandes sur mesure (les limites, c’est sexy).'], ['no', 'Non : tu ne peux pas choisir les parfums de tes cookies.'], ['yes', 'Oui : tu peux nous écrire sur Instagram, mais ce formulaire est plus sûr pour avoir une vraie réponse.']],
+    spot: 'Ton spot douceurs, café & comfort food',
+    formTitle: 'Envoie-nous un message', topic: 'C’est à quel sujet ?', topics: { visit: 'Une question sur une visite', press: 'Presse & collabs', other: 'Autre chose' },
+    first: 'Prénom', last: 'Nom', email: 'E-mail', message: 'Message', submit: 'Envoyer',
+    success: 'Message reçu !', successNext: ['On lit chaque message nous-mêmes.', 'Tu reçois une réponse par e-mail. Les gâteaux et le traiteur ont leur propre formulaire, pour nous arriver plus vite.'],
+  },
+}[lang];
+---
+<Base lang={lang} title={c.title} description={c.desc} ogImage="visit" breadcrumb={[{ name: t('nav.visit'), path: '/visit' }]}>
+  <section class="hero grid-paper" aria-labelledby="visit-h1">
+    <div class="wrap split" style="align-items:end">
+      <div class="stack">
+        <h1 id="visit-h1" class="title-xl">{c.h1}</h1>
+        <p class="lead">{c.sub}</p>
+      </div>
+      <div class="card card-pad">
+        <h2 style="font-size:var(--step-2);margin-bottom:var(--space-4)">{c.beforeTitle}</h2>
+        <ul class="not-list" style="gap:var(--space-3)">
+          {c.before.map(([k, txt]) => <li style="box-shadow:none"><span class="x" aria-hidden="true" style={k === 'yes' ? 'background:var(--sky);color:var(--navy)' : ''}>{k === 'yes' ? '✓' : '×'}</span><span>{txt}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="spot-title">
+    <div class="wrap">
+      <span id="spot-title" class="sr-only">{c.spot}</span>
+      <VisitBlock lang={lang} heading={c.spot} />
+    </div>
+  </section>
+
+  <section class="section paper" aria-labelledby="contact-title">
+    <div class="wrap-narrow card card-pad">
+      <h2 id="contact-title" style="font-size:var(--step-4);margin-bottom:var(--space-6)">{c.formTitle}</h2>
+      <FormShell form="contact" lang={lang} submit={c.submit} successTitle={c.success} successNext={c.successNext}>
+        <fieldset class="field" data-field="topic">
+          <legend>{c.topic}</legend>
+          <div class="chips-input">
+            {(['visit', 'press', 'other'] as const).map((k, i) => <label><input type="radio" name="topic" value={k} checked={i === 0} /><span>{c.topics[k]}</span></label>)}
+          </div>
+        </fieldset>
+        <div class="form-grid two">
+          <Field form="contact" name="firstName" label={c.first} required autocomplete="given-name" maxlength={80} />
+          <Field form="contact" name="lastName" label={c.last} required autocomplete="family-name" maxlength={80} />
+          <Field form="contact" name="email" type="email" label={c.email} required autocomplete="email" inputmode="email" class="full" maxlength={200} />
+          <Field form="contact" name="message" textarea rows={6} label={c.message} required class="full" maxlength={2000} />
+        </div>
+      </FormShell>
+      <p class="muted" style="margin-top:var(--space-5);font-size:var(--step--1)"><a href={business.instagram} rel="noopener">Instagram {business.instagramHandle}</a> &middot; <a href={business.tiktok} rel="noopener">TikTok {business.instagramHandle}</a></p>
+    </div>
+  </section>
+</Base>
