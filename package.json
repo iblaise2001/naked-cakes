@@ -1,0 +1,29 @@
+{
+  "name": "naked-cakes",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/check-output.mjs",
+    "preview": "wrangler pages dev dist",
+    "images": "node scripts/prepare-images.mjs",
+    "check:output": "node scripts/check-output.mjs",
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
+    "@fontsource/anton": "^5.3.0",
+    "@fontsource/caveat": "^5.3.0",
+    "astro": "^5.18.2",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.0",
+    "potrace": "^2.1.8",
+    "typescript": "^5.9.3"
+  }
+}
