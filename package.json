@@ -10,7 +10,9 @@
     "images": "node scripts/prepare-images.mjs",
     "check:output": "node scripts/check-output.mjs",
     "test": "node --test tests/unit/*.test.mjs",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check:source": "node scripts/check-source.mjs",
+    "og": "node scripts/og-images.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

@@ -7,8 +7,8 @@ import { join, extname } from 'node:path';
 const DIST = 'dist';
 const TEXT = new Set(['.html', '.xml', '.txt', '.js', '.css', '.json', '.svg', '.webmanifest', '']);
 const banned = [
-  [/—/, 'em dash (U+2014)'],
-  [/–/, 'en dash (U+2013)'],
+  [new RegExp(String.fromCharCode(0x2014)), 'em dash (U+2014)'],
+  [new RegExp(String.fromCharCode(0x2013)), 'en dash (U+2013)'],
   [/lorem ipsum/i, 'lorem ipsum'],
   [/wixstatic\.com|wix\.com/i, 'Wix CDN URL'],
   [/\bTODO\b/, 'TODO marker'],

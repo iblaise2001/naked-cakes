@@ -12,6 +12,7 @@ const photos = [
   ['rosette-cake', '60fdfd9d2ac14e5092d6de51f0f192cf'],
   // Excluded: a09c1177 (heart cake with a name piped on it), and the other cakes with lettering
   // (0bc01359, 6dd8a2c6, eccded21, ecf62d1b): the client does not write on cakes.
+  // Excluded: 2174a4de (coffee cart in a venue), likely a generated mockup; awaiting client confirmation.
   ['white-heart-cake', '3797f267a8044c7cac5ac87a9207fda5', [0, 0.02, 1, 0.7]],
   ['cookies-choc-chip', '3a39af75e54b42c2b841bf57c2b4685a'],
   ['cookies-red-velvet', '4e65f431b0a04665b2ceebdd6ebf848c'],
@@ -26,7 +27,6 @@ const photos = [
   ['smash-box', '35d374e63603467db3de42ff71cd3d6c'],
   ['wedding-cakes', '3348e4a8fb9c45cc9dd857691fe93b8b'],
   ['wedding-cake-flowers', '69c1c5eda4304a599c90aa9f337e9c74'],
-  ['coffee-cart', '2174a4de76e94faa82de7a5420507a70'],
   ['jessie-cookie-tower', 'd205b1dd03dd4dd799e0c94d94922b44'],
   ['jessie-surprised', '359aa7211ea741ba85321b9953c81154'],
   ['jessie-boombox', 'a572cfd9d4aa42bcb889a234700d395e'],
@@ -52,7 +52,7 @@ for (const [name, [l, t, w, h]] of slideCrops) {
   console.log(name);
 }
 for (const [name, id, crop] of photos) {
-  const file = `${SRC}/b6ff09_${id}~mv2.${id === '3348e4a8fb9c45cc9dd857691fe93b8b' || id === '2174a4de76e94faa82de7a5420507a70' ? 'png' : 'jpg'}`;
+  const file = `${SRC}/b6ff09_${id}~mv2.${id === '3348e4a8fb9c45cc9dd857691fe93b8b' ? 'png' : 'jpg'}`;
   let img = sharp(file).rotate();
   if (crop) {
     const m = await img.metadata();
