@@ -17,7 +17,7 @@ const t = useT(lang);
 const path = basePath(Astro.url.pathname);
 const site = Astro.site!.toString().replace(/\/$/, '');
 const canonical = site + href(lang, path);
-const og = `${site}/og/${ogImage}.png`;
+const og = `${site}/og/${ogImage}.jpg`;
 const ld: object[] = [localBusinessLd(site, lang), ...jsonLd];
 if (breadcrumb) {
   ld.push({

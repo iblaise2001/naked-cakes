@@ -9,3 +9,4 @@ dist/
 source-assets/wix/
 test-results/
 playwright-report/
+.lh/

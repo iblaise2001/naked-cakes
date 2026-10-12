@@ -177,7 +177,7 @@ const c = {
       </div>
       <div class="hero-photo">
         <p class="hand" aria-hidden="true">{c.heroNote} &#8600;</p>
-        <div class="photo"><Photo name="red-velvet-slice" alt={c.heroAlt} sizes="(min-width: 900px) 520px, 92vw" widths={[360, 520, 760, 1040, 1476]} priority /></div>
+        <div class="photo"><Photo name="red-velvet-slice" alt={c.heroAlt} sizes="(min-width: 900px) 500px, min(92vw, 500px)" widths={[360, 500, 760, 1000, 1476]} priority /></div>
         <span class="stamp" aria-hidden="true">Best<br />seller</span>
       </div>
     </div>
@@ -218,7 +218,7 @@ const c = {
           <li>
             <a class="product" href={href(lang, p.href)}>
               {p.best && <span class="stamp" aria-hidden="true">{c.best}</span>}
-              <div class="photo"><Photo name={p.photo} alt={p.alt} sizes="(min-width: 1200px) 400px, (min-width: 640px) 45vw, 92vw" widths={[360, 560, 800]} /></div>
+              <div class="photo"><Photo name={p.photo} alt={p.alt} sizes="(min-width: 1320px) 410px, (min-width: 760px) 31vw, 46vw" widths={[240, 360, 560, 800]} /></div>
               <div class="product-meta"><h3>{p.name}</h3><span class="price">{P(p.price)}</span></div>
               {p.best && <span class="sr-only">{c.best}</span>}
             </a>

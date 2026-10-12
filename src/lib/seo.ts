@@ -12,7 +12,7 @@ export function localBusinessLd(site: string, lang: Lang) {
     '@id': `${site}/#business`,
     name: business.name,
     url: site + (lang === 'en' ? '/' : `/${lang}`),
-    image: `${site}/og/home.png`,
+    image: `${site}/og/home.jpg`,
     logo: `${site}/brand/logo.svg`,
     telephone: '+32471815093',
     email: business.email,

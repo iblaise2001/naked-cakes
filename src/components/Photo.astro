@@ -18,7 +18,7 @@ const w = widths.filter((x) => x <= src.width);
   fallbackFormat="jpg"
   quality={priority ? 62 : 70}
   loading={priority ? 'eager' : 'lazy'}
-  decoding={priority ? 'sync' : 'async'}
+  decoding="async"
   fetchpriority={priority ? 'high' : 'auto'}
   class={cls}
 />
