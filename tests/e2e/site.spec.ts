@@ -68,3 +68,15 @@ test('reduced motion: the hero cake is a static final frame', async ({ page }) =
   const t = await page.locator('.cake .layer').first().evaluate((el) => getComputedStyle(el).transform);
   expect(['none', 'matrix(1, 0, 0, 1, 0, 0)']).toContain(t);
 });
+
+test('canonical, hreflang and language links are right on every home page', async ({ page, isMobile }) => {
+  test.skip(!!isMobile);
+  for (const [url, canon] of [['/', '/'], ['/nl', '/nl'], ['/fr', '/fr']]) {
+    await page.goto(url);
+    expect(new URL(await page.locator('link[rel=canonical]').getAttribute('href') as string).pathname).toBe(canon);
+    expect(new URL(await page.locator('link[hreflang="nl-BE"]').getAttribute('href') as string).pathname).toBe('/nl');
+    expect(new URL(await page.locator('link[hreflang="x-default"]').getAttribute('href') as string).pathname).toBe('/');
+    await expect(page.locator('.lang-desktop a[hreflang="en"]')).toHaveAttribute('href', '/');
+    await expect(page.locator('.lang-desktop a[hreflang="fr"]')).toHaveAttribute('href', '/fr');
+  }
+});

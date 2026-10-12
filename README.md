@@ -3,6 +3,8 @@
 Rebuild of nakedcakes.be: an American-inspired dessert and comfort food café at Jean-Baptiste Nowélei 57, 1800 Vilvoorde.
 Static Astro site on Cloudflare Pages, in English, Dutch and French, with embedded forms that replace every mailto link.
 
+**Live preview:** https://naked-cakes.pages.dev
+
 **Status: design preview.** Forms validate and show their real success states, but no email is sent until a provider is connected (see CLIENT_ACTIONS.md).
 
 ## Run it

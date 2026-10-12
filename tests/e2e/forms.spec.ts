@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
-import { humanise } from './helpers.ts';
+import { humanise, goto } from './helpers.ts';
 
 test('catering request: validation then success', async ({ page }) => {
-  await page.goto('/catering#request');
+  await goto(page, '/catering#request');
   const form = page.locator('form[data-form="catering"]');
   await form.getByRole('button', { name: 'Send my request' }).click();
   await expect(form.locator('[data-error-summary]')).toBeVisible();
@@ -22,7 +22,7 @@ test('catering request: validation then success', async ({ page }) => {
 });
 
 test('contact form in Dutch speaks Dutch', async ({ page }) => {
-  await page.goto('/nl/visit');
+  await goto(page, '/nl/visit');
   const form = page.locator('form[data-form="contact"]');
   await form.getByLabel('E-mail').fill('niet-een-mail');
   await form.getByLabel('E-mail').blur();
@@ -37,7 +37,7 @@ test('contact form in Dutch speaks Dutch', async ({ page }) => {
 });
 
 test('Sweet Bite Club: consent required, birthday is day and month only', async ({ page }) => {
-  await page.goto('/sweet-bite-club');
+  await goto(page, '/sweet-bite-club');
   const form = page.locator('form[data-form="club"]');
   await expect(form.locator('select[name=birthYear], input[name=birthYear]')).toHaveCount(0);
   await form.getByLabel('First name').fill('Noor');

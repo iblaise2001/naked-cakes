@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
-import { humanise, firstPickupDate } from './helpers.ts';
+import { humanise, firstPickupDate, goto } from './helpers.ts';
 
 test.describe('cake order', () => {
   test('happy path: three steps, live estimate, branded success', async ({ page }) => {
-    await page.goto('/order-cake#build');
+    await goto(page, '/order-cake#build');
     const form = page.locator('form[data-form="cake"]');
     await expect(form.getByRole('button', { name: 'Send my cake request' })).toBeHidden();
     await form.getByRole('radio', { name: /^Large/ }).check();
@@ -29,7 +29,7 @@ test.describe('cake order', () => {
   });
 
   test('step 1 blocks Next with linked, plain-language errors', async ({ page }) => {
-    await page.goto('/order-cake#build');
+    await goto(page, '/order-cake#build');
     const form = page.locator('form[data-form="cake"]');
     await form.getByRole('button', { name: /Next/ }).first().click();
     const summary = form.locator('[data-error-summary]');
@@ -39,7 +39,7 @@ test.describe('cake order', () => {
   });
 
   test('XL only allows the rectangle shape', async ({ page }) => {
-    await page.goto('/order-cake#build');
+    await goto(page, '/order-cake#build');
     const form = page.locator('form[data-form="cake"]');
     await form.getByRole('radio', { name: /^XL/ }).check();
     await expect(form.locator('input[name=shape][value=rectangle]')).toBeChecked();
@@ -50,7 +50,7 @@ test.describe('cake order', () => {
   });
 
   test('closed days are refused for pickup', async ({ page }) => {
-    await page.goto('/order-cake#build');
+    await goto(page, '/order-cake#build');
     const form = page.locator('form[data-form="cake"]');
     for (const label of ['Medium', 'Round', 'Basic', 'All white']) await form.getByRole('radio', { name: new RegExp(`^${label}`) }).check();
     await form.getByRole('button', { name: /Next/ }).first().click();
@@ -62,7 +62,7 @@ test.describe('cake order', () => {
   });
 
   test('draft survives a reload', async ({ page }) => {
-    await page.goto('/order-cake#build');
+    await goto(page, '/order-cake#build');
     await page.locator('form[data-form="cake"]').getByRole('radio', { name: /^Fully Covered/ }).check();
     await page.reload();
     await expect(page.locator('input[name=style][value=covered]')).toBeChecked();
@@ -70,7 +70,7 @@ test.describe('cake order', () => {
 
   test('network failure shows the fallback, never a dead end', async ({ page }) => {
     await page.route('**/api/submit', (r) => r.abort());
-    await page.goto('/order-cake#build');
+    await goto(page, '/order-cake#build');
     const form = page.locator('form[data-form="cake"]');
     for (const label of ['Medium', 'Round', 'Basic', 'All white']) await form.getByRole('radio', { name: new RegExp(`^${label}`) }).check();
     await form.getByRole('button', { name: /Next/ }).first().click();

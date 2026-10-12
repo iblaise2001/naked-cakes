@@ -1,6 +1,8 @@
 // Site-wide behaviour. Everything here is an enhancement: the HTML works without it.
 import { status } from '../lib/dates.ts';
 import { sprinkle } from './sprinkles.ts';
+// Every page has at least the footer club form, so the form layer ships in the main bundle (no extra round trip).
+import './forms.ts';
 
 const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => Array.from(r.querySelectorAll<T>(s));
 
@@ -110,7 +112,6 @@ if (egg) {
   addEventListener('keyup', (e) => { if (e.key === 'Enter') stop(); });
 }
 
-/* Forms and the cake order flow load only where needed. */
-if (document.querySelector('[data-form]')) import('./forms.ts');
+/* Page-specific behaviour loads only where needed. */
 if (document.querySelector('[data-cake-order]')) import('./cake-order.ts');
 if (document.querySelector('[data-menu-filters]')) import('./menu.ts');

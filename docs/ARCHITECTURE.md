@@ -2,7 +2,7 @@
 
 ## Stack and why
 
-- **Astro 5, static output.** Every page is pre-rendered HTML at build time. Zero framework runtime ships to the browser: the only JavaScript is three tiny modules (3.3 KB gzip site-wide, plus 2.3 KB for forms and 1.7 KB for the cake flow, loaded only on pages that have them). Astro also gives us responsive AVIF/WebP image pipelines and i18n routing out of the box. Next.js static export was the alternative; it would ship a router runtime we do not need.
+- **Astro 5, static output.** Every page is pre-rendered HTML at build time. Zero framework runtime ships to the browser: the only JavaScript is one small module (5 KB gzip, including the form layer that every page needs for the footer newsletter), plus 1.7 KB for the cake flow and 0.4 KB for the menu filters, loaded only on those pages. Astro also gives us responsive AVIF/WebP image pipelines and i18n routing out of the box. Next.js static export was the alternative; it would ship a router runtime we do not need.
 - **Hand-written CSS with design tokens** (`src/styles/global.css`), inlined into each page so there is no render-blocking stylesheet request.
 - **Self-hosted fonts** from Fontsource (Anton, Bricolage Grotesque variable, Caveat), loaded per `unicode-range` so pages only fetch the subsets they use. The display face is preloaded.
 - **Cloudflare Pages** for hosting (EU edge, HTTP/3, Brotli) and **Pages Functions** for the single form endpoint.
@@ -65,4 +65,4 @@ EN lives at the root, NL at `/nl`, FR at `/fr`, with the same slugs. Every page 
 
 - `scripts/check-output.mjs` runs after every build: fails on em or en dashes, lorem ipsum, Wix CDN URLs or TODO markers in `dist`, and writes `_headers` with a CSP that hashes the exact inline scripts in the build.
 - `scripts/check-source.mjs` runs as a pre-commit hook and in CI.
-- `npm test` (unit: dates incl. DST, validation, cake pricing) and `npx playwright test` (128 checks: every form path, redirects, axe on 40 URLs, keyboard, reduced motion, console).
+- `npm test` (unit: dates incl. DST, validation, cake pricing) and `npx playwright test` (129 checks: every form path, redirects, axe on 40 URLs, keyboard, reduced motion, console).

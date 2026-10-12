@@ -58,6 +58,7 @@ for (const form of document.querySelectorAll<HTMLFormElement>('form[data-form]')
   const id = form.dataset.form as FormId;
   const stamp = form.querySelector<HTMLInputElement>('input[name="t"]')!;
   stamp.value = String(Date.now());
+  form.dataset.enhanced = 'true';
 
   form.addEventListener('focusout', (e) => {
     const el = e.target as HTMLInputElement;

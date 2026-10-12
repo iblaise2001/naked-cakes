@@ -14,7 +14,7 @@ export const href = (lang: Lang, path: string) => {
   return lang === 'en' ? p || '/' : `/${lang}${p}`;
 };
 /** Strip the language prefix from a pathname. */
-export const basePath = (pathname: string) => pathname.replace(/^\/(nl|fr)(?=\/|$)/, '').replace(/\.html$/, '') || '/';
+export const basePath = (pathname: string) => pathname.replace(/\.html$/, '').replace(/^\/(nl|fr)(?=\/|$)/, '').replace(/\/index$/, '') || '/';
 
 type Dict = Record<string, string>;
 const en: Dict = {
