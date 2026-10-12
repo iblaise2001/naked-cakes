@@ -4,8 +4,10 @@
 @import '@fontsource-variable/bricolage-grotesque/wght.css';
 @import '@fontsource/caveat/600.css';
 
-@font-face { font-family: 'Anton fallback'; src: local('Impact'), local('Arial Narrow Bold'), local('Arial Bold'); size-adjust: 96%; ascent-override: 118%; }
-@font-face { font-family: 'Bricolage fallback'; src: local('Arial'), local('Helvetica'); size-adjust: 104%; ascent-override: 92%; descent-override: 26%; }
+/* Fallback metrics measured against the real fonts (width ratio per weight), so a late font swap does not reflow text. */
+@font-face { font-family: 'Anton fallback'; src: local('Impact'), local('Arial Narrow Bold'); size-adjust: 99%; ascent-override: 118%; }
+@font-face { font-family: 'Bricolage fallback'; src: local('Arial'), local('ArialMT'), local('Helvetica'); font-weight: 100 549; size-adjust: 106.3%; ascent-override: 92%; descent-override: 26%; }
+@font-face { font-family: 'Bricolage fallback'; src: local('Arial Bold'), local('Arial-BoldMT'), local('Helvetica Bold'); font-weight: 550 900; size-adjust: 101.5%; ascent-override: 92%; descent-override: 26%; }
 
 :root {
   /* Brand palette (locked from the live site and the logo file) */
@@ -275,7 +277,7 @@ body { padding-bottom: 76px; }
   animation: frost 0.6s var(--ease-out) both; animation-delay: calc(var(--i) * 110ms + 120ms); transform-origin: left;
 }
 .cake .frost::before, .cake .frost::after {
-  content: ''; position: absolute; left: -2px; right: -2px; height: 10px;
+  content: ''; position: absolute; left: 0; right: 0; height: 10px;
   background: radial-gradient(circle at 50% 50%, var(--white) 4.5px, transparent 5px) 0 0 / 14px 10px repeat-x;
 }
 .cake .frost::before { top: -6px; } .cake .frost::after { bottom: -6px; }
@@ -289,13 +291,20 @@ body { padding-bottom: 76px; }
 @keyframes frost { from { transform: scaleX(0.15); } }
 @keyframes cherry { from { transform: translateY(-1.2em) rotate(-30deg); } }
 .hero-sub { font-size: var(--step-1); font-weight: 600; max-width: 30ch; color: var(--navy); }
+@media (max-width: 600px) and (max-height: 740px) {
+  .hero { padding-top: var(--space-3); }
+  .hero-copy > * + * { margin-top: var(--space-3); }
+  .cake { --fs: clamp(2.4rem, 0.6rem + 9vw, 4rem); }
+  .hero-sub { font-size: var(--step-0); }
+  .banner { font-size: 0.78rem; padding-block: 0.35rem; }
+}
 
 .visit-strip {
   display: grid; grid-template-columns: 1fr auto; gap: 0.2rem 1rem; align-items: center;
   padding: 0.85rem 1rem; border: var(--border); border-radius: var(--radius-m); background: var(--white); box-shadow: 3px 3px 0 var(--navy);
   font-size: var(--step--1); max-width: 34rem;
 }
-.visit-strip strong { color: var(--navy); }
+.visit-strip strong { color: var(--navy); min-height: 2lh; display: flex; align-items: end; }
 .visit-strip .addr { grid-column: 1; }
 .visit-strip a.dir { grid-row: 1 / span 2; grid-column: 2; }
 
