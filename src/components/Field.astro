@@ -1,0 +1,18 @@
+---
+// Labelled input with an error slot wired for screen readers. Visible labels, always.
+interface Props {
+  form: string; name: string; label: string; type?: string; required?: boolean; optionalLabel?: string; hint?: string;
+  autocomplete?: string; inputmode?: string; textarea?: boolean; rows?: number; min?: string | number; max?: string | number;
+  placeholder?: string; class?: string; value?: string; maxlength?: number;
+}
+const { form, name, label, type = 'text', required = false, optionalLabel, hint, textarea, class: cls, ...rest } = Astro.props;
+const id = `${form}-${name}`;
+const desc = [hint ? `${id}-hint` : '', `${id}-err`].filter(Boolean).join(' ');
+const attrs = { id, name, required, 'aria-describedby': desc, autocomplete: rest.autocomplete, inputmode: rest.inputmode, min: rest.min, max: rest.max, placeholder: rest.placeholder, maxlength: rest.maxlength };
+---
+<div class:list={['field', cls]} data-field={name}>
+  <label for={id}>{label}{!required && optionalLabel && <span class="opt"> ({optionalLabel})</span>}</label>
+  {hint && <span class="hint" id={`${id}-hint`}>{hint}</span>}
+  {textarea ? <textarea {...attrs} rows={rest.rows ?? 4}>{rest.value}</textarea> : <input type={type} value={rest.value} {...attrs} />}
+  <p class="error" id={`${id}-err`}></p>
+</div>

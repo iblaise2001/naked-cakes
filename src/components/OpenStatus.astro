@@ -1,0 +1,20 @@
+---
+// Open-now badge. The server renders a correct static fallback (the open days);
+// src/scripts/site.ts replaces it with the live Brussels-time status.
+import { hours, days } from '../data/business.ts';
+import { useT, href, type Lang } from '../i18n/ui.ts';
+interface Props { lang: Lang; variant?: 'pill' | 'line' }
+const { lang, variant = 'pill' } = Astro.props;
+const t = useT(lang);
+const short = (d: string) => new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : lang === 'nl' ? 'nl-BE' : 'fr-BE', { weekday: 'short', timeZone: 'UTC' })
+  .format(new Date(Date.UTC(2026, 0, 5 + days.indexOf(d as never))));
+const openDays = days.filter((d) => hours[d]).map(short).join(', ');
+const strings = { now: t('open.now'), until: t('open.until'), closed: t('open.closed'), opens: t('open.opens'), today: t('open.today'), at: t('open.at') };
+---
+{variant === 'pill' ? (
+  <a class="open-pill" href={href(lang, '/visit') + '#hours'} data-open-status data-lang={lang} data-strings={JSON.stringify(strings)}>
+    <span class="dot" aria-hidden="true"></span><span data-text>{openDays}</span>
+  </a>
+) : (
+  <span data-open-status data-lang={lang} data-strings={JSON.stringify(strings)}><span data-text>{openDays}</span></span>
+)}

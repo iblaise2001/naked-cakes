@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../i18n/ui.ts';
+interface Props { lang: Lang; title: string; description: string; h1: string; path: string; crumb: string; updated: string; draftNote?: string }
+const { lang, title, description, h1, path, crumb, updated, draftNote } = Astro.props;
+const upd = { en: 'Last updated', nl: 'Laatst bijgewerkt', fr: 'Dernière mise à jour' }[lang];
+---
+<Base lang={lang} title={title} description={description} breadcrumb={[{ name: crumb, path }]}>
+  <article class="section">
+    <div class="wrap-narrow prose">
+      <h1>{h1}</h1>
+      {draftNote && <p class="callout" style="margin-bottom:var(--space-6)">{draftNote}</p>}
+      <slot />
+      <p class="muted" style="margin-top:var(--space-7)">{upd}: {updated}</p>
+    </div>
+  </article>
+</Base>

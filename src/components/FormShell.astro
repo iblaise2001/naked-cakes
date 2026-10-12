@@ -1,0 +1,53 @@
+---
+// One form shell for every form: works as a plain POST without JS (server redirects to /thanks),
+// and src/scripts/forms.ts upgrades it to inline validation and an in-page submission.
+import { useT, href, type Lang } from '../i18n/ui.ts';
+import { business } from '../data/business.ts';
+import Icon from './Icon.astro';
+interface Props { form: 'cake' | 'catering' | 'contact' | 'club'; lang: Lang; submit: string; successTitle: string; successNext: string[]; class?: string }
+const { form, lang, submit, successTitle, successNext, class: cls } = Astro.props;
+const t = useT(lang);
+const errs = Object.fromEntries(['required', 'email', 'phone', 'tooLong', 'number', 'choice', 'shape', 'past', 'soon', 'closed', 'far', 'format', 'consent', 'birthday'].map((k) => [k, t(`err.${k}`)]));
+const uid = `${form}-${Math.random().toString(36).slice(2, 7)}`;
+---
+<div class:list={['form-host', cls]} data-form-host>
+  <form class="form" data-form={form} method="post" action="/api/submit" novalidate data-errors={JSON.stringify(errs)} aria-labelledby={`${uid}-title`}>
+    <input type="hidden" name="form" value={form} />
+    <input type="hidden" name="lang" value={lang} />
+    <input type="hidden" name="t" value="" />
+    <div class="hp" aria-hidden="true">
+      <label for={`${uid}-website`}>Website</label>
+      <input id={`${uid}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <div class="error-summary" data-error-summary hidden tabindex="-1">
+      <h3>{t('form.fixErrors')}</h3>
+      <ul></ul>
+    </div>
+    <slot />
+    <div class="btn-row" data-submit-row>
+      <button class="btn submit-btn" type="submit" data-state="idle">
+        <span class="when-idle">{submit}</span>
+        <span class="when-sending" aria-hidden="true"><span class="spinner"></span>{t('form.sending')}</span>
+        <span class="when-sent" aria-hidden="true"><Icon name="check" />{t('form.sent')}</span>
+      </button>
+      <slot name="after-submit" />
+    </div>
+    <p class="hint muted" style="font-size:var(--step--1);margin:0"><a href={href(lang, '/privacy')}>{t('form.privacy')}</a></p>
+  </form>
+
+  <div class="form-result success card" data-success tabindex="-1" aria-live="polite">
+    <p class="hand" aria-hidden="true">yay!</p>
+    <h2>{successTitle}</h2>
+    <ol class="check-list next">{successNext.map((s) => <li>{s}</li>)}</ol>
+    <p class="preview-note">{t('form.preview')}</p>
+  </div>
+
+  <div class="form-result fail" data-fail tabindex="-1" role="alert">
+    <h3>{t('form.fail.title')}</h3>
+    <p>{t('form.fail.body')}</p>
+    <div class="btn-row">
+      <button class="btn btn-small btn-ghost" type="button" data-copy={business.email} data-copied={t('form.fail.copied')}><Icon name="copy" /><span>{t('form.fail.copy')}</span></button>
+      <a class="btn btn-small btn-ghost" href={business.phoneHref}><Icon name="phone" />{business.phoneDisplay}</a>
+    </div>
+  </div>
+</div>

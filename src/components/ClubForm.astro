@@ -1,0 +1,57 @@
+---
+import FormShell from './FormShell.astro';
+import Field from './Field.astro';
+import { useT, href, type Lang } from '../i18n/ui.ts';
+interface Props { lang: Lang; compact?: boolean }
+const { lang, compact = false } = Astro.props;
+const t = useT(lang);
+const pre = compact ? 'clubf' : 'club';
+const c = {
+  en: { first: 'First name', email: 'Email', bday: 'Birthday', bdayHint: 'Day and month only. We send you something sweet, we never need the year.', day: 'Day', month: 'Month',
+    consent: 'I wanna subscribe. Yay!', consentFine: 'You can unsubscribe with one click in every email.', submit: 'Let’s go!',
+    title: 'You’re almost in!', next: ['Check your inbox for a confirmation email and tap the button.', 'Then you’re in the club: drops, specials, and slightly chaotic updates.'] },
+  nl: { first: 'Voornaam', email: 'E-mail', bday: 'Verjaardag', bdayHint: 'Alleen dag en maand. We sturen je iets zoets, het jaar hebben we nooit nodig.', day: 'Dag', month: 'Maand',
+    consent: 'Ik wil me inschrijven. Joepie!', consentFine: 'Uitschrijven kan met één klik in elke mail.', submit: 'Let’s go!',
+    title: 'Je bent er bijna!', next: ['Check je inbox voor een bevestigingsmail en tik op de knop.', 'Dan zit je in de club: drops, specials en licht chaotische updates.'] },
+  fr: { first: 'Prénom', email: 'E-mail', bday: 'Anniversaire', bdayHint: 'Jour et mois seulement. On t’envoie un petit truc sucré, l’année ne nous sert à rien.', day: 'Jour', month: 'Mois',
+    consent: 'Je veux m’inscrire. Youpi !', consentFine: 'Désinscription en un clic dans chaque e-mail.', submit: 'C’est parti !',
+    title: 'Tu y es presque !', next: ['Vérifie ta boîte mail et clique sur le bouton de confirmation.', 'Ensuite, bienvenue au club : nouveautés, spécialités et nouvelles un peu chaotiques.'] },
+}[lang];
+const months = Array.from({ length: 12 }, (_, i) => new Intl.DateTimeFormat(lang === 'en' ? 'en-GB' : lang === 'nl' ? 'nl-BE' : 'fr-BE', { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, i, 1))));
+---
+<FormShell form="club" lang={lang} submit={c.submit} successTitle={c.title} successNext={c.next}>
+  <div class:list={['form-grid', !compact && 'two']}>
+    <Field form={pre} name="firstName" label={c.first} required autocomplete="given-name" maxlength={80} />
+    <Field form={pre} name="email" label={c.email} type="email" required autocomplete="email" inputmode="email" maxlength={200} />
+    <fieldset class="field full" data-field="birthDay" aria-describedby={`${pre}-bday-hint ${pre}-birthDay-err`}>
+      <legend>{c.bday} <span class="opt">({t('form.optional')})</span></legend>
+      <span class="hint" id={`${pre}-bday-hint`}>{c.bdayHint}</span>
+      <div class="form-grid two" style="gap:var(--space-3)">
+        <div class="field">
+          <label for={`${pre}-birthDay`} class="sr-only">{c.day}</label>
+          <select id={`${pre}-birthDay`} name="birthDay" autocomplete="bday-day" aria-describedby={`${pre}-birthDay-err`}>
+            <option value="">{c.day}</option>
+            {Array.from({ length: 31 }, (_, i) => <option value={String(i + 1)}>{i + 1}</option>)}
+          </select>
+        </div>
+        <div class="field" data-field="birthMonth">
+          <label for={`${pre}-birthMonth`} class="sr-only">{c.month}</label>
+          <select id={`${pre}-birthMonth`} name="birthMonth" autocomplete="bday-month" aria-describedby={`${pre}-birthMonth-err`}>
+            <option value="">{c.month}</option>
+            {months.map((m, i) => <option value={String(i + 1)}>{m}</option>)}
+          </select>
+          <p class="error" id={`${pre}-birthMonth-err`}></p>
+        </div>
+      </div>
+      <p class="error" id={`${pre}-birthDay-err`}></p>
+    </fieldset>
+    <div class="field full" data-field="consent">
+      <label class="consent" for={`${pre}-consent`}>
+        <input id={`${pre}-consent`} type="checkbox" name="consent" value="yes" required aria-describedby={`${pre}-consent-fine ${pre}-consent-err`} />
+        <span>{c.consent}</span>
+      </label>
+      <span class="hint" id={`${pre}-consent-fine`}>{c.consentFine} <a href={href(lang, '/privacy')}>{t('policy.privacy')}</a></span>
+      <p class="error" id={`${pre}-consent-err`}></p>
+    </div>
+  </div>
+</FormShell>

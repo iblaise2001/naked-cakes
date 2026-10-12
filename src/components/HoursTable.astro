@@ -1,0 +1,20 @@
+---
+import { hours, days } from '../data/business.ts';
+import { useT, type Lang } from '../i18n/ui.ts';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useT(lang);
+const fmt = (h: [string, string] | null) => (h ? `${h[0].replace(/^0/, '')} to ${h[1].replace(/^0/, '')}` : t('open.closedDay'));
+const to = { en: 'to', nl: 'tot', fr: 'à' }[lang];
+---
+<table class="hours" data-hours-table>
+  <caption class="sr-only">{t('open.hours')}</caption>
+  <tbody>
+    {days.map((d) => (
+      <tr data-day={d} data-today-label={t('open.todayLabel')}>
+        <th scope="row">{t(`day.${d}`)}</th>
+        <td>{hours[d] ? fmt(hours[d]).replace(' to ', ` ${to} `) : t('open.closedDay')}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>

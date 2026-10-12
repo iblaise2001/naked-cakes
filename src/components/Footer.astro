@@ -1,0 +1,74 @@
+---
+import { useT, href, type Lang } from '../i18n/ui.ts';
+import { business, mapsLinks } from '../data/business.ts';
+import HoursTable from './HoursTable.astro';
+import ClubForm from './ClubForm.astro';
+import Icon from './Icon.astro';
+interface Props { lang: Lang; showClub?: boolean }
+const { lang, showClub = true } = Astro.props;
+const t = useT(lang);
+const club = {
+  en: { h: 'Join the Sweet Bite Club', p: 'Early access to new drops and weekend specials, first dibs on events, and real talk from Jessie. Plus something sweet on your birthday.' },
+  nl: { h: 'Word lid van de Sweet Bite Club', p: 'Als eerste nieuwe drops en weekendspecials, voorrang op events en echte praat van Jessie. En iets zoets op je verjaardag.' },
+  fr: { h: 'Rejoins le Sweet Bite Club', p: 'Les nouveautés et spécialités du week-end en avant-première, les événements en premier et les vraies nouvelles de Jessie. Et une douceur pour ton anniversaire.' },
+}[lang];
+---
+<footer class="site-footer">
+  <div class="wrap">
+    {showClub && (
+      <section class="footer-club grid-paper card" aria-labelledby="footer-club-title">
+        <div class="split" style="align-items:start;gap:var(--space-6)">
+          <div class="stack">
+            <h2 id="footer-club-title">{club.h}</h2>
+            <p>{club.p}</p>
+          </div>
+          <ClubForm lang={lang} compact />
+        </div>
+      </section>
+    )}
+    <div class="footer-grid" style="margin-top:var(--space-8)">
+      <div class="stack">
+        <img class="footer-logo" src="/brand/logo-reversed.svg" alt="Naked Cakes" width="200" height="112" loading="lazy" />
+        <p>{t('footer.tagline')}</p>
+        <div class="socials">
+          <a href={business.instagram} rel="noopener" aria-label="Instagram @nakedcakes.be"><Icon name="instagram" /></a>
+          <a href={business.tiktok} rel="noopener" aria-label="TikTok @nakedcakes.be"><Icon name="tiktok" /></a>
+        </div>
+      </div>
+      <div>
+        <h2>{t('footer.visit')}</h2>
+        <address class="stack" style="font-style:normal">
+          <p><a href={mapsLinks.google} rel="noopener">{business.street}<br />{business.postalCode} {business.city}</a><br /><span>({t('addr.near')})</span></p>
+          <p><a href={business.phoneHref}>{business.phoneDisplay}</a><br /><a href={`mailto:${business.email}`}>{business.email}</a></p>
+        </address>
+      </div>
+      <div>
+        <h2>{t('open.hours')}</h2>
+        <HoursTable lang={lang} />
+      </div>
+      <div>
+        <h2>{t('footer.explore')}</h2>
+        <ul>
+          <li><a href={href(lang, '/menu')}>{t('nav.menu')}</a></li>
+          <li><a href={href(lang, '/order-cake')}>{t('nav.order')}</a></li>
+          <li><a href={href(lang, '/catering')}>{t('nav.catering')}</a></li>
+          <li><a href={href(lang, '/about')}>{t('nav.about')}</a></li>
+          <li><a href={href(lang, '/visit')}>{t('nav.visit')}</a></li>
+          <li><a href={href(lang, '/sweet-bite-club')}>{t('nav.club')}</a></li>
+        </ul>
+        <h2 style="margin-top:var(--space-6)">{t('footer.policies')}</h2>
+        <ul>
+          <li><a href={href(lang, '/privacy')}>{t('policy.privacy')}</a></li>
+          <li><a href={href(lang, '/pickup-delivery')}>{t('policy.pickup')}</a></li>
+          <li><a href={href(lang, '/refunds')}>{t('policy.refunds')}</a></li>
+          <li><a href={href(lang, '/accessibility')}>{t('policy.a11y')}</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="footer-big wrap" aria-hidden="true">Good vibes</p>
+  <div class="wrap footer-bottom">
+    <span>&copy; {new Date().getFullYear()} Naked Cakes, Vilvoorde</span>
+    <span>{t('footer.preview')}</span>
+  </div>
+</footer>

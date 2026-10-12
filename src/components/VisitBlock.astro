@@ -1,0 +1,39 @@
+---
+import { useT, type Lang } from '../i18n/ui.ts';
+import { business, mapsLinks } from '../data/business.ts';
+import HoursTable from './HoursTable.astro';
+import OpenStatus from './OpenStatus.astro';
+import Icon from './Icon.astro';
+interface Props { lang: Lang; heading: string; headingLevel?: 'h1' | 'h2'; intro?: string }
+const { lang, heading, headingLevel = 'h2', intro } = Astro.props;
+const t = useT(lang);
+const H = headingLevel;
+const mapLabel = { en: 'Show the map', nl: 'Toon de kaart', fr: 'Afficher la carte' }[lang];
+const mapNote = { en: 'Loads Google Maps', nl: 'Laadt Google Maps', fr: 'Charge Google Maps' }[lang];
+---
+<div class="split" style="align-items:start">
+  <div class="stack">
+    <H class="title-xl" style="font-size:var(--step-4)">{heading}</H>
+    {intro && <p class="lead">{intro}</p>}
+    <p style="font-weight:800;color:var(--navy);font-size:var(--step-1)"><OpenStatus lang={lang} variant="line" /></p>
+    <address class="addr-block">
+      {business.street}<br />{business.postalCode} {business.city} <span class="muted">({t('addr.near')})</span>
+    </address>
+    <div class="btn-row">
+      <a class="btn" href={mapsLinks.google} rel="noopener"><Icon name="pin" />Google Maps</a>
+      <a class="btn btn-ghost" href={mapsLinks.apple} rel="noopener">Apple Maps</a>
+      <button class="btn btn-ghost btn-small" type="button" data-copy={`${business.street}, ${business.postalCode} ${business.city}`} data-copied={t('addr.copied')}><Icon name="copy" /><span>{t('addr.copy')}</span></button>
+    </div>
+    <p><a class="link-arrow" href={business.phoneHref}>{business.phoneDisplay}</a> &middot; <a class="link-arrow" href={`mailto:${business.email}`}>{business.email}</a></p>
+    <div id="hours" class="card card-pad" style="margin-top:var(--space-6)">
+      <h3 style="margin-bottom:var(--space-3)">{t('open.hours')}</h3>
+      <HoursTable lang={lang} />
+    </div>
+  </div>
+  <div>
+    <button class="map-facade" type="button" data-map={mapsLinks.embed} data-title={`Map: ${business.street}, ${business.city}`}>
+      <svg class="pin" viewBox="0 0 48 64" aria-hidden="true"><path d="M24 62S4 38 4 22a20 20 0 0 1 40 0c0 16-20 40-20 40z" fill="#E03189" stroke="#050A2A" stroke-width="3"/><circle cx="24" cy="22" r="8" fill="#FFF" stroke="#050A2A" stroke-width="3"/></svg>
+      <span class="label btn btn-small btn-ghost">{mapLabel} <span class="muted" style="font-weight:600">({mapNote})</span></span>
+    </button>
+  </div>
+</div>

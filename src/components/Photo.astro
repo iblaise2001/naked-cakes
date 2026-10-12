@@ -1,0 +1,24 @@
+---
+// Responsive AVIF/WebP/JPEG picture from the graded client photos in src/assets/photos.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props { name: string; alt: string; sizes: string; widths?: number[]; priority?: boolean; class?: string }
+const { name, alt, sizes, widths = [360, 560, 800, 1100, 1500], priority = false, class: cls } = Astro.props;
+const all = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*.jpg', { eager: true });
+const src = all[`../assets/photos/${name}.jpg`]?.default;
+if (!src) throw new Error(`Unknown photo: ${name}`);
+const w = widths.filter((x) => x <= src.width);
+---
+<Picture
+  src={src}
+  alt={alt}
+  widths={w.length ? w : [src.width]}
+  sizes={sizes}
+  formats={['avif', 'webp']}
+  fallbackFormat="jpg"
+  quality={priority ? 62 : 70}
+  loading={priority ? 'eager' : 'lazy'}
+  decoding={priority ? 'sync' : 'async'}
+  fetchpriority={priority ? 'high' : 'auto'}
+  class={cls}
+/>
